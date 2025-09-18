@@ -138,6 +138,10 @@
         <div id="appContent" class="hide">
             <div class="text-right mb-4 flex justify-end items-center gap-2">
                 <span id="userInfo" class="text-text-muted text-sm mr-2"></span>
+                <!-- NOVO: Botão de Configurações -->
+                <button id="btnShowSettings" class="p-2 text-sm bg-btn-secondary text-white rounded-lg font-semibold" title="Configurações">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </button>
                 <button id="btnEditProfile" class="py-2 px-4 text-sm bg-btn-secondary text-white rounded-lg font-semibold">Editar Perfil</button>
                 <button id="btnLogout" class="py-2 px-4 text-sm bg-btn-danger text-white rounded-lg font-semibold">Sair</button>
             </div>
@@ -387,6 +391,26 @@
             </form>
         </div>
     </div>
+    
+    <!-- NOVO: Modal de Configurações da API Key -->
+    <div id="settingsModal" class="modal fixed inset-0 z-50 flex justify-center items-center p-4 hide">
+        <div class="modal-content bg-bg-container p-6 rounded-xl shadow-2xl border border-border-light w-full max-w-lg relative">
+            <span id="closeSettingsModal" class="absolute top-4 right-4 text-2xl font-bold text-text-muted cursor-pointer">&times;</span>
+            <h3 class="text-2xl font-semibold text-text-light mb-4">Configurações de API</h3>
+            <form id="settingsForm" class="space-y-4">
+                <div>
+                    <label for="apiKeyInput" class="block text-text-muted">A sua Chave de API do Google AI:</label>
+                    <input type="password" id="apiKeyInput" class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light" required>
+                    <p class="text-xs text-text-muted mt-2">A sua chave é guardada apenas no seu navegador. Obtenha a sua em <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-blue hover:underline">Google AI Studio</a>. <br> **Nota:** O plano gratuito tem um limite de 60 requisições por minuto. Se o erro de "quota excedida" persistir, a solução mais fiável é <a href="https://console.cloud.google.com/billing" target="_blank" class="text-primary-blue hover:underline">ativar o faturamento</a> no seu projeto Google Cloud.</p>
+                </div>
+                <div class="mt-6 flex justify-end gap-4">
+                    <button type="button" id="btnClearApiKey" class="py-3 px-6 text-lg bg-btn-danger text-white rounded-lg font-semibold">Remover Chave</button>
+                    <button type="submit" class="py-3 px-6 text-lg bg-btn-primary text-white rounded-lg font-semibold">Guardar Chave</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <!-- Modal de Adicionar Avaliação Física -->
     <div id="addAvaliacaoModal" class="modal fixed inset-0 z-50 flex justify-center items-center p-4 hide">
@@ -694,7 +718,8 @@
                 analiseNutricional: {},
                 avaliacoesCache: [],
                 treinoAbertoId: null,
-                alunosCache: [], // NOVO: Cache de alunos para pesquisa/filtro
+                alunosCache: [], 
+                apiKey: null, // NOVO: Armazena a chave de API
             };
 
             const telaLogin = document.getElementById('telaLogin');
@@ -775,6 +800,12 @@
             const closeLoadTemplateModal = document.getElementById('closeLoadTemplateModal');
             const templateListContainer = document.getElementById('templateListContainer');
             const btnSalvarComoModelo = document.getElementById('btnSalvarComoModelo');
+            const btnShowSettings = document.getElementById('btnShowSettings');
+            const settingsModal = document.getElementById('settingsModal');
+            const closeSettingsModal = document.getElementById('closeSettingsModal');
+            const settingsForm = document.getElementById('settingsForm');
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const btnClearApiKey = document.getElementById('btnClearApiKey');
 
 
             const iconEye = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.01 9.963 7.182.373.836-.018 1.76-.942 1.956a1.012 1.012 0 01-1.258-.453C18.663 15.045 15.564 18 12 18c-3.564 0-6.663-2.955-8.22-5.468z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`;
@@ -798,6 +829,7 @@
                     telaCadastro.classList.add('hide');
                     appContent.classList.remove('hide');
                     
+                    loadApiKey(); // NOVO: Carrega a chave de API ao logar
                     updateWelcomeMessage();
                     mostrarTela('telaBoasVindas');
 
@@ -880,6 +912,39 @@
                 }
                 showNotification(title, message, 'error');
             }
+            
+            // --- NOVO: LÓGICA DE API KEY ---
+            function loadApiKey() {
+                const storedKey = localStorage.getItem('googleAiApiKey');
+                if (storedKey) {
+                    appState.apiKey = storedKey;
+                    apiKeyInput.value = storedKey;
+                }
+            }
+            btnShowSettings.addEventListener('click', () => {
+                settingsModal.classList.remove('hide');
+            });
+            closeSettingsModal.addEventListener('click', () => settingsModal.classList.add('hide'));
+            settingsForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newKey = apiKeyInput.value.trim();
+                if (newKey) {
+                    appState.apiKey = newKey;
+                    localStorage.setItem('googleAiApiKey', newKey);
+                    showNotification("Sucesso", "Chave de API guardada com sucesso!");
+                    settingsModal.classList.add('hide');
+                } else {
+                    showNotification("Atenção", "Por favor, insira uma chave de API válida.", "error");
+                }
+            });
+            btnClearApiKey.addEventListener('click', () => {
+                appState.apiKey = null;
+                localStorage.removeItem('googleAiApiKey');
+                apiKeyInput.value = '';
+                showNotification("Sucesso", "Chave de API removida.");
+                settingsModal.classList.add('hide');
+            });
+
 
             // --- LÓGICA DE PERFIL DO TREINADOR ---
             btnEditProfile.addEventListener('click', async () => {
@@ -1621,16 +1686,46 @@
                     return "";
                 }
             }
+            
+            async function isVideoUrlValid(youtubeUrl) {
+                if (!youtubeUrl || typeof youtubeUrl !== 'string') return false;
+                let videoId = null;
+                try {
+                    const url = new URL(youtubeUrl);
+                    if (url.hostname === 'youtu.be') {
+                        videoId = url.pathname.slice(1);
+                    } else if (url.hostname.includes('youtube.com')) {
+                        videoId = url.searchParams.get('v');
+                    }
+                } catch (e) { return false; }
+
+                if (!videoId) return false;
+
+                try {
+                    const response = await fetch(`https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=${videoId}&format=json`);
+                    return response.ok;
+                } catch (error) {
+                    console.error("Erro ao verificar URL do vídeo:", error);
+                    return false;
+                }
+            }
+
 
             btnGerarComIA.addEventListener('click', async () => {
                 if (!appState.alunoSelecionado) return;
                 
+                if (!appState.apiKey) {
+                    showNotification("Atenção", "Por favor, configure a sua chave de API nas configurações (⚙️) antes de gerar um treino.", "error");
+                    settingsModal.classList.remove('hide');
+                    return;
+                }
+
                 const duracaoTreino = document.getElementById('duracao_treino').value;
                 const treinoEmCasa = document.getElementById('treino_em_casa').checked;
                 const incluirTecnicas = document.getElementById('incluir_tecnicas').checked && dificuldadeSelect.value !== 'Iniciante';
                 const musculoEnfase = document.getElementById('musculo_enfase').value.trim();
                 const incluirDicas = document.getElementById('incluir_dicas').checked;
-                const observacoesIA = document.getElementById('observacoes_ia').value.trim(); // NOVO
+                const observacoesIA = document.getElementById('observacoes_ia').value.trim();
                 
                 toggleSpinner(true, "A analisar histórico e criar um treino único...");
                 btnGerarComIA.disabled = true;
@@ -1638,25 +1733,40 @@
 
                 const exerciseHistory = await getExerciseHistory(appState.alunoSelecionado.id);
 
-                // ---------- PROMPT MELHORADO ----------
-                let prompt = `Você é um Personal Trainer de elite, especialista em fisiologia do exercício e nutrição esportiva. Sua missão é criar o melhor plano de treino possível, detalhado, científico e motivador.
+                let prompt = `Você é um Personal Trainer de elite, especialista em fisiologia do exercício. Sua missão é criar o melhor plano de treino possível, detalhado, científico e motivador.
 
-## Regras Críticas:
-- **Links Válidos:** É OBRIGATÓRIO incluir um \`videoUrl\` funcional do YouTube para CADA exercício, demonstrando a execução correta. Use sua ferramenta de pesquisa para validar.
-- **Formato JSON:** Responda APENAS com o objeto JSON, sem nenhum texto extra.
-- **Volume do Treino:** Cada dia deve conter pelo menos 5-7 exercícios de musculação.
-- **Variedade é Chave:** O treino deve ser NOVO e CRIATIVO. **NÃO REPITA** os exercícios do histórico fornecido. Use variações e ângulos diferentes.
-- **Treino Completo:** Inclua sugestões para \`aquecimento\`, \`cardio\`, e \`arrefecimento\` em cada dia de treino, como strings de texto.
-- **Dicas Inteligentes:** Se solicitado, gere 3 a 5 dicas personalizadas e acionáveis, baseadas nos dados do aluno.
+## Regra de Ouro: Coesão e Ordem Lógica (CRÍTICO)
+- **Coesão Muscular:** Para cada dia de treino, **TODOS** os exercícios listados **DEVEM** pertencer aos grupos musculares definidos para aquele dia. É inaceitável incluir um exercício de quadríceps num dia de "Posterior e Glúteo". A ativação secundária de outros músculos é normal, mas o foco principal do exercício deve ser o grupo muscular do dia.
+- **Ordem Inteligente dos Exercícios:** A sequência dos exercícios dentro de cada dia é fundamental. Siga esta estrutura profissional:
+    1.  Comece com os exercícios **compostos e multiarticulares** (ex: Agachamentos, Supinos, Remadas).
+    2.  Prossiga para os exercícios **isolados ou monoarticulares** (ex: Rosca Bíceps, Extensão de Tríceps, Cadeira Extensora).
+    3.  **Agrupe os exercícios por músculo.** Não salte entre grupos musculares. Exemplo para um dia de Peito e Tríceps:
+        - **CORRETO:** Supino Reto, Supino Inclinado, Crucifixo, e DEPOIS Tríceps Pulley, Tríceps Testa.
+        - **INCORRETO:** Supino Reto, Tríceps Pulley, Supino Inclinado.
+    4.  Exercícios para o core/abdômen devem ser colocados no final da sessão.
 
+## Regras Gerais Obrigatórias:
+- **Exercícios Reais e Links Sugeridos:** Todos os exercícios devem ter nomes comuns de academia. **É OBRATÓRIO** incluir uma SUGESTÃO de \`videoUrl\` funcional do YouTube para CADA exercício.
+- **Formato de Saída:** Responda APENAS com o objeto JSON.
+- **Volume e Estrutura:** Cada dia de treino deve conter pelo menos 5-7 exercícios.
+- **Criatividade e Inovação:** É crucial que este plano de treino seja novo. **NÃO REPITA** exercícios de planos anteriores. Use variações.
+- **Análise do Histórico:** Foi fornecido um histórico de exercícios. **É MANDATÓRIO priorizar exercícios que NÃO ESTÃO NESTA LISTA.**
+- **Dicas Inteligentes:** Se solicitado, gere 3 a 5 dicas personalizadas e acionáveis.
 `;
+
                 if (appState.alunoSelecionado.sexo === 'Feminino') {
-                    prompt += `## Instruções para Treino Feminino:
-- **Foco:** Dê ênfase especial ao desenvolvimento de glúteos, posteriores e quadríceps. Priorize exercícios como agachamento, levantamento terra romeno, elevação pélvica, e afundo.
-- **Equilíbrio:** Construa um treino de superiores equilibrado para fortalecer costas e ombros.
+                    prompt += `
+---
+## Instruções Específicas para Treino Feminino:
+- **Foco nos Objetivos:** Dê ênfase especial ao desenvolvimento de glúteos, posteriores e quadríceps.
+- **Seleção de Exercícios:** Priorize exercícios como agachamento, levantamento terra romeno, elevação pélvica, afundo e cadeira abdutora.
+- **Membros Superiores:** Construa um treino equilibrado para costas e ombros.
+---
 `;
                 }
-                prompt += `---
+
+                prompt += `
+---
 Crie o plano de treino para o(a) seguinte aluno(a):
 - Aluno(a): "${appState.alunoSelecionado.nome}"
 - Sexo: ${appState.alunoSelecionado.sexo}
@@ -1667,14 +1777,14 @@ Crie o plano de treino para o(a) seguinte aluno(a):
 - Divisão de Treino Sugerida: ${divisaoTreinoSelect.value}`;
 
                 if (exerciseHistory) { prompt += exerciseHistory; }
-                if (observacoesIA) { prompt += `\n- **Restrições/Observações do Aluno (MUITO IMPORTANTE):** ${observacoesIA}`; } // NOVO
                 if (duracaoTreino !== 'N/A') { prompt += `\n- **Duração Máxima por Sessão:** ${duracaoTreino}.`; }
-                if (treinoEmCasa) { prompt += `\n- **Local:** Treino em casa. Utilize APENAS o peso corporal.`; }
-                if (incluirTecnicas) { prompt += `\n- **Técnicas Avançadas:** Incorpore UMA técnica avançada (drop set, superset, etc.) em no MÁXIMO DOIS exercícios por dia.`; }
+                if (treinoEmCasa) { prompt += `\n- **Local do Treino:** Treino em casa. Utilize APENAS o peso corporal.`; }
+                if (incluirTecnicas) { prompt += `\n- **Técnicas Avançadas:** Incorpore UMA técnica avançada em no MÁXIMO DOIS exercícios por dia.`; }
                 if (musculoEnfase) { prompt += `\n- **Ênfase Muscular:** Foco especial em: ${musculoEnfase}.`; }
-                if (incluirDicas) { prompt += `\n- **Descrições e Dicas:** Forneça a seção de técnicas e dicas personalizadas.`; }
-                prompt += `\nResponda APENAS com o JSON estruturado.`;
-                // ---------- FIM DO PROMPT MELHORADO ----------
+                if (incluirDicas) { prompt += `\n- **Descrições e Dicas:** Forneça a descrição das técnicas e dicas personalizadas.`; }
+                if (observacoesIA) { prompt += `\n- **Observações IMPORTANTES do Treinador:** ${observacoesIA}.`; }
+                prompt += `\nResponda APENAS com o JSON estruturado conforme o schema solicitado.`;
+                
 
                 const schema = {
                     type: "OBJECT",
@@ -1687,7 +1797,7 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                                 properties: { 
                                     nome_dia: { type: "STRING" }, 
                                     grupos_musculares: { type: "STRING" },
-                                    aquecimento: { type: "STRING" }, // NOVO
+                                    aquecimento: { type: "STRING" },
                                     exercicios: { 
                                         type: "ARRAY", 
                                         items: { 
@@ -1699,8 +1809,8 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                                             required: ["nome", "series", "reps", "descanso", "videoUrl"]
                                         } 
                                     },
-                                    cardio: { type: "STRING" }, // NOVO
-                                    arrefecimento: { type: "STRING" } // NOVO
+                                    cardio: { type: "STRING" },
+                                    arrefecimento: { type: "STRING" }
                                 },
                                 required: ["nome_dia", "grupos_musculares", "exercicios"]
                             } 
@@ -1712,61 +1822,88 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                 };
                 
                 try {
-                    const apiKey = "AIzaSyAhP0njLVX3MxNkyLBlhFHEF0fyJJ60pkU"; 
+                    const apiKey = appState.apiKey;
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+                    
                     const payload = { 
                         contents: [{ role: "user", parts: [{ text: prompt }] }], 
-                        generationConfig: { responseMimeType: "application/json", responseSchema: schema },
-                        tools: [{ "google_search": {} }]
+                        generationConfig: { responseMimeType: "application/json", responseSchema: schema }
                     };
-                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+
+                    const response = await fetch(apiUrl, { 
+                        method: 'POST', 
+                        headers: { 'Content-Type': 'application/json' }, 
+                        body: JSON.stringify(payload) 
+                    });
                     
                     if (!response.ok) {
-                        let errorDetails = `HTTP status ${response.status}: ${response.statusText}`;
+                        const errorText = await response.text();
+                        let errorDetails = `Erro da API: ${response.statusText}`;
                         try {
-                            const errorJson = await response.json();
-                            errorDetails = errorJson.error?.message || JSON.stringify(errorJson);
-                        } catch (e) { console.log("Could not parse error response body as JSON."); }
-                        throw new Error(`API Error: ${errorDetails}`);
+                           const errorJson = JSON.parse(errorText);
+                           errorDetails = errorJson.error?.message || errorText;
+                           if(errorDetails.includes("API key not valid")) {
+                                errorDetails = "A sua chave de API é inválida. Por favor, verifique nas configurações (⚙️)."
+                           }
+                        } catch(e) {}
+                        throw new Error(errorDetails);
                     }
 
                     const result = await response.json();
                     let textPart = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                    if (!textPart) throw new Error("Resposta da IA inválida ou vazia.");
-
-                    const startIndex = textPart.indexOf('{');
-                    const endIndex = textPart.lastIndexOf('}');
-
-                    if (startIndex === -1 || endIndex === -1 || endIndex < startIndex) {
-                        console.error("Resposta da IA recebida:", textPart);
-                        throw new Error("Não foi possível encontrar um objeto JSON válido na resposta da IA.");
-                    }
-                    textPart = textPart.substring(startIndex, endIndex + 1);
-
+                    if (!textPart) throw new Error("A IA retornou uma resposta vazia ou malformada.");
+                    
                     const treinoJson = JSON.parse(textPart);
+                    
+                    if (!treinoJson.plano_semanal || !Array.isArray(treinoJson.plano_semanal) || treinoJson.plano_semanal.length === 0) {
+                        console.error("A resposta da IA não contém um 'plano_semanal' válido ou está vazio.", treinoJson);
+                        throw new Error("A IA retornou um formato de dados inesperado. O plano de treino semanal está em falta ou vazio. Tente novamente.");
+                    }
+                    
+                    toggleSpinner(true, "A verificar links dos vídeos...");
+                    const validationPromises = [];
+                    if (treinoJson.plano_semanal) {
+                        treinoJson.plano_semanal.forEach(dia => {
+                            if (dia.exercicios) {
+                                dia.exercicios.forEach(ex => {
+                                    if (ex.videoUrl) {
+                                        validationPromises.push(
+                                            isVideoUrlValid(ex.videoUrl).then(isValid => {
+                                                if (!isValid) {
+                                                    ex.videoUrl = ''; 
+                                                }
+                                            })
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    await Promise.all(validationPromises);
+
                     preencherFormularioComIA(treinoJson);
-                    showNotification("Sucesso!", "Sugestão de treino gerada! Reveja e ajuste se necessário.");
+                    showNotification("Sucesso!", "Sugestão de treino gerada e links verificados!");
+
                 } catch (error) {
                     console.error("Erro ao gerar treino com IA:", error);
-                    if (error.message && (error.message.includes('quota') || error.message.includes('rate limit'))) {
-                        showNotification(
-                            "Limite de Pedidos Atingido", 
-                            "Você fez muitos pedidos em pouco tempo. Por favor, aguarde um minuto antes de tentar gerar um novo treino.", 
-                            "error"
-                        );
-                    } else {
-                        showNotification(
-                            "Erro de IA", 
-                            error.message || "A IA não conseguiu gerar o treino. Verifique se a sua Chave de API é válida.", 
-                            "error"
-                        );
+                    let errorMessage = error.message || "A IA não conseguiu gerar o treino. Tente novamente.";
+                    let errorTitle = "Erro de IA";
+
+                    if (errorMessage.toLowerCase().includes('quota') || errorMessage.toLowerCase().includes('rate limit')) {
+                        errorTitle = "Limite de API Atingido";
+                        errorMessage = "A cota de utilização da sua chave de API foi excedida. Isto é comum no plano gratuito. Por favor, aguarde um tempo ou verifique o seu plano e faturação na sua conta Google AI.";
                     }
+                    
+                    showNotification(errorTitle, errorMessage, "error");
                 } finally {
                     toggleSpinner(false);
-                    btnGerarComIA.disabled = false;
-                    btnGerarComIA.classList.remove('opacity-50', 'cursor-not-allowed');
+                    setTimeout(() => {
+                        btnGerarComIA.disabled = false;
+                        btnGerarComIA.classList.remove('opacity-50', 'cursor-not-allowed');
+                    }, 10000); 
                 }
             });
+
 
             function preencherFormularioComIA(treinoData, isTemplate = false) {
                 if (!isTemplate) {
@@ -1930,6 +2067,7 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                 if (observacoes) {
                     container.innerHTML += `<div class="mb-4"><h4 class="font-bold text-primary-blue">Observações Gerais:</h4><p class="text-text-muted whitespace-pre-wrap">${observacoes}</p></div>`;
                 }
+                const youtubeIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-red-500"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>`;
 
                 appState.treinoSemanal.forEach(dia => {
                     let diaHTML = `<div class="mb-4">
@@ -2161,7 +2299,6 @@ Crie o plano de treino para o(a) seguinte aluno(a):
             document.getElementById('btnGerarPDF').addEventListener('click', gerarPDF);
             
             function gerarPDF() {
-                // Função de gerar PDF existente, atualizada para incluir os novos campos
                  if (appState.treinoSemanal.length === 0) return showNotification("Atenção", "Não há treino para gerar PDF.", "error");
                 
                 toggleSpinner(true, "A gerar PDF profissional...");
@@ -2187,12 +2324,11 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                 
                 // ... (código de montagem do cabeçalho do PDF existente) ...
                 
-                // Atualização na renderização dos dias de treino
                 appState.treinoSemanal.forEach(dia => {
-                    // ... (código de verificação de página e cabeçalho do dia) ...
                     
                     const addSimpleSection = (title, content) => {
                         if(content) {
+                            if (yPosition > DOC_HEIGHT - 40) { doc.addPage(); yPosition = 30; }
                             doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(TEXT_COLOR);
                             doc.text(title, MARGIN + 1, yPosition); yPosition += 5;
                             doc.setFont('helvetica', 'normal'); doc.setTextColor(LIGHT_TEXT_COLOR);
@@ -2201,12 +2337,16 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                             yPosition += (splitText.length * 4) + 5;
                         }
                     };
+
+                    if (yPosition > DOC_HEIGHT - 60) { doc.addPage(); yPosition = 30; }
+                    doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(PRIMARY_COLOR); doc.text(dia.nome, MARGIN, yPosition); yPosition += 8;
+                    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(LIGHT_TEXT_COLOR); doc.text(dia.musculos, MARGIN, yPosition); yPosition += 4;
                     
                     addSimpleSection("Aquecimento:", dia.aquecimento);
 
                     const head = [['Exercício', 'Séries x Reps', 'Descanso', 'Obs.']];
-                    const body = dia.exercicios.map(ex => [ /* ... (código existente) ... */ ]);
-                    doc.autoTable({ /* ... (configuração existente) ... */ });
+                    const body = dia.exercicios.map(ex => [ ex.nome, `${ex.series || ''}x${ex.reps || ''}`, ex.descanso, ex.obs ]);
+                    doc.autoTable({ startY: yPosition, head: head, body: body, theme: 'grid', headStyles: { fillColor: PRIMARY_COLOR } });
                     yPosition = doc.autoTable.previous.finalY + 8;
 
                     addSimpleSection("Cardio:", dia.cardio);
@@ -2214,7 +2354,7 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                     yPosition += 7;
                 });
                 
-                // ... (restante do código de geração de PDF, incluindo dicas e técnicas) ...
+                // ... (restante do código de geração de PDF) ...
                 doc.save(`plano_${nome.replace(/\s/g, '_')}.pdf`);
                 toggleSpinner(false);
             }
@@ -2383,3 +2523,4 @@ Crie o plano de treino para o(a) seguinte aluno(a):
     </script>
 </body>
 </html>
+
