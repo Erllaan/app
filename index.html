@@ -138,7 +138,6 @@
         <div id="appContent" class="hide">
             <div class="text-right mb-4 flex justify-end items-center gap-2">
                 <span id="userInfo" class="text-text-muted text-sm mr-2"></span>
-                <!-- NOVO: Botão de Configurações -->
                 <button id="btnShowSettings" class="p-2 text-sm bg-btn-secondary text-white rounded-lg font-semibold" title="Configurações">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </button>
@@ -153,7 +152,7 @@
                     <p class="text-text-muted text-lg mb-8">Pronto para transformar resultados? O que deseja fazer hoje?</p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <button id="btnIrParaAlunos" class="py-3 px-6 text-lg bg-primary-blue text-white rounded-lg font-semibold">Ver Meus Alunos</button>
-                        <button id="btnAdicionarAlunoRapido" class="py-3 px-6 text-lg bg-btn-success text-white rounded-lg font-semibold">Adicionar Novo Aluno</button>
+                        <button id="btnIrParaBiblioteca" class="py-3 px-6 text-lg bg-btn-secondary text-white rounded-lg font-semibold">Biblioteca de Exercícios</button>
                     </div>
                 </div>
             </div>
@@ -164,14 +163,29 @@
                      <h2 class="text-2xl font-semibold text-primary-blue">Meus Alunos</h2>
                      <button id="btnShowAddAlunoModal" class="py-2 px-4 bg-btn-primary text-white rounded-lg font-semibold w-full sm:w-auto">+ Adicionar Aluno</button>
                  </div>
-                 <!-- NOVO: Filtros de Alunos -->
                  <div class="mb-6 flex flex-col sm:flex-row gap-4">
-                    <input type="search" id="alunoSearchInput" placeholder="Pesquisar por nome..." class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light flex-grow">
-                    <select id="alunoObjectiveFilter" class="w-full sm:w-1/3 p-3 rounded-lg border border-border-light bg-background-dark text-text-light">
-                        <option value="">Filtrar por objetivo</option>
-                    </select>
+                     <input type="search" id="alunoSearchInput" placeholder="Pesquisar por nome..." class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light flex-grow">
+                     <select id="alunoObjectiveFilter" class="w-full sm:w-1/3 p-3 rounded-lg border border-border-light bg-background-dark text-text-light">
+                         <option value="">Filtrar por objetivo</option>
+                     </select>
                  </div>
                  <div id="listaAlunos" class="space-y-3"></div>
+            </div>
+
+            <!-- Tela Biblioteca de Exercícios -->
+            <div id="telaBiblioteca" class="hide">
+                <button id="btnVoltarParaBoasVindas_Bib" class="py-2 px-4 mb-6 bg-btn-secondary text-white rounded-lg font-semibold">← Voltar</button>
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+                    <h2 class="text-2xl font-semibold text-primary-blue">Biblioteca de Exercícios</h2>
+                    <button id="btnPopularBiblioteca" class="py-2 px-4 bg-btn-primary text-white rounded-lg font-semibold w-full sm:w-auto">Popular com Lista Padrão</button>
+                </div>
+                <div class="mb-6 flex flex-col sm:flex-row gap-4">
+                    <input type="search" id="exercicioSearchInput" placeholder="Pesquisar por exercício..." class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light flex-grow">
+                    <select id="exercicioGroupFilter" class="w-full sm:w-1/3 p-3 rounded-lg border border-border-light bg-background-dark text-text-light">
+                        <option value="">Filtrar por grupo muscular</option>
+                    </select>
+                </div>
+                <div id="listaExerciciosBiblioteca" class="space-y-3 max-h-[60vh] overflow-y-auto pr-2"></div>
             </div>
 
             <!-- Tela Gerenciar Aluno -->
@@ -183,7 +197,6 @@
                     <div class="flex flex-col gap-4">
                         <button id="btnAcompanharEvolucao" class="w-full py-4 text-xl bg-btn-success text-white rounded-lg font-semibold">Acompanhar Evolução</button>
                         <button id="btnNovoTreino" class="w-full py-4 text-xl bg-primary-blue text-white rounded-lg font-semibold">Criar Novo Treino</button>
-                        <!-- NOVO: Botão para carregar de modelo -->
                         <button id="btnLoadTemplate" class="w-full py-4 text-xl bg-blue-800 text-white rounded-lg font-semibold">Criar Treino a Partir de Modelo</button>
                         <button id="btnCarregarTreino" class="w-full py-4 text-xl bg-btn-secondary text-white rounded-lg font-semibold">Ver Treinos Guardados</button>
                     </div>
@@ -217,7 +230,6 @@
                     <h2 class="text-xl md:text-2xl font-semibold text-primary-blue pb-2 border-b border-border-light">1. Defina os Parâmetros</h2>
                     <input type="text" id="nome_aluno_form" class="w-full p-4 rounded-lg border border-border-light bg-bg-container text-text-light text-lg" disabled>
                     
-                    <!-- NOVO: Observações para a IA -->
                     <div>
                         <label for="observacoes_ia" class="block mb-2 text-text-muted">Observações para a IA (lesões, preferências, etc.):</label>
                         <textarea id="observacoes_ia" placeholder="Ex: Evitar exercícios de alto impacto no joelho. Foco em ombros." class="w-full p-3 rounded-lg border border-border-light bg-bg-container text-text-light text-md"></textarea>
@@ -324,9 +336,8 @@
                      <div class="mt-8 space-y-4">
                          <input type="text" id="treinoNomeSalvo" placeholder="Nome do Treino (Ex: Hipertrofia - Mês 1)" class="w-full p-4 rounded-lg border border-border-light bg-bg-container text-text-light text-lg">
                          <div class="flex flex-col sm:flex-row gap-4">
-                            <!-- NOVO: Botão para salvar como modelo -->
-                            <button id="btnSalvarComoModelo" type="button" class="w-full py-3 text-lg bg-blue-800 text-white rounded-lg font-semibold">Guardar como Modelo</button>
-                            <button id="btnSalvarTreino" type="button" class="w-full py-3 text-lg bg-primary-blue text-white rounded-lg font-semibold">Guardar Treino na Nuvem</button>
+                             <button id="btnSalvarComoModelo" type="button" class="w-full py-3 text-lg bg-blue-800 text-white rounded-lg font-semibold">Guardar como Modelo</button>
+                             <button id="btnSalvarTreino" type="button" class="w-full py-3 text-lg bg-primary-blue text-white rounded-lg font-semibold">Guardar Treino na Nuvem</button>
                          </div>
                      </div>
 
@@ -392,7 +403,7 @@
         </div>
     </div>
     
-    <!-- NOVO: Modal de Configurações da API Key -->
+    <!-- Modal de Configurações da API Key -->
     <div id="settingsModal" class="modal fixed inset-0 z-50 flex justify-center items-center p-4 hide">
         <div class="modal-content bg-bg-container p-6 rounded-xl shadow-2xl border border-border-light w-full max-w-lg relative">
             <span id="closeSettingsModal" class="absolute top-4 right-4 text-2xl font-bold text-text-muted cursor-pointer">&times;</span>
@@ -401,16 +412,20 @@
                 <div>
                     <label for="apiKeyInput" class="block text-text-muted">A sua Chave de API do Google AI:</label>
                     <input type="password" id="apiKeyInput" class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light" required>
-                    <p class="text-xs text-text-muted mt-2">A sua chave é guardada apenas no seu navegador. Obtenha a sua em <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-blue hover:underline">Google AI Studio</a>. <br> **Nota:** O plano gratuito tem um limite de 60 requisições por minuto. Se o erro de "quota excedida" persistir, a solução mais fiável é <a href="https://console.cloud.google.com/billing" target="_blank" class="text-primary-blue hover:underline">ativar o faturamento</a> no seu projeto Google Cloud.</p>
+                    <p class="text-xs text-text-muted mt-2">A sua chave é guardada apenas no seu navegador. Obtenha a sua em <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-blue hover:underline">Google AI Studio</a>.</p>
+                </div>
+                <div>
+                    <label for="youtubeApiKeyInput" class="block text-text-muted">A sua Chave de API do YouTube Data v3:</label>
+                    <input type="password" id="youtubeApiKeyInput" class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light" value="AIzaSyByiaW2KLCduh-jKcZtdEUxI1GXWk8axok">
+                    <p class="text-xs text-text-muted mt-2">Necessária para a funcionalidade de sugestão de vídeos. A sua chave é guardada apenas no seu navegador. Obtenha a sua no <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" class="text-primary-blue hover:underline">Google Cloud Console</a>.</p>
                 </div>
                 <div class="mt-6 flex justify-end gap-4">
-                    <button type="button" id="btnClearApiKey" class="py-3 px-6 text-lg bg-btn-danger text-white rounded-lg font-semibold">Remover Chave</button>
-                    <button type="submit" class="py-3 px-6 text-lg bg-btn-primary text-white rounded-lg font-semibold">Guardar Chave</button>
+                    <button type="button" id="btnClearApiKeys" class="py-3 px-6 text-lg bg-btn-danger text-white rounded-lg font-semibold">Remover Chaves</button>
+                    <button type="submit" class="py-3 px-6 text-lg bg-btn-primary text-white rounded-lg font-semibold">Guardar Chaves</button>
                 </div>
             </form>
         </div>
     </div>
-
 
     <!-- Modal de Adicionar Avaliação Física -->
     <div id="addAvaliacaoModal" class="modal fixed inset-0 z-50 flex justify-center items-center p-4 hide">
@@ -507,7 +522,7 @@
         </div>
     </div>
 
-    <!-- NOVO: Modal para carregar Templates de Treino -->
+    <!-- Modal para carregar Templates de Treino -->
     <div id="loadTemplateModal" class="modal fixed inset-0 z-50 flex justify-center items-center p-4 hide">
         <div class="modal-content bg-bg-container p-6 rounded-xl shadow-2xl border border-border-light w-full max-w-2xl relative">
             <span id="closeLoadTemplateModal" class="absolute top-4 right-4 text-2xl font-bold text-text-muted cursor-pointer">&times;</span>
@@ -517,12 +532,44 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal para Adicionar/Editar Link de Vídeo -->
+    <div id="videoLinkModal" class="modal fixed inset-0 z-50 flex justify-center items-center p-4 hide">
+        <div class="modal-content bg-bg-container p-6 rounded-xl shadow-2xl border border-border-light w-full max-w-lg relative">
+            <span id="closeVideoLinkModal" class="absolute top-4 right-4 text-2xl font-bold text-text-muted cursor-pointer">&times;</span>
+            <h3 id="videoLinkModalTitle" class="text-2xl font-semibold text-text-light mb-4">Adicionar/Editar Vídeo</h3>
+            <p id="videoLinkModalExercise" class="text-text-muted mb-4"></p>
+            <form id="formVideoLink" class="space-y-4">
+                <input type="hidden" id="exerciseIdHidden">
+                <input type="hidden" id="exerciseNameHidden">
+                <input type="hidden" id="exerciseGroupHidden">
+                <div>
+                    <label for="videoUrlInput" class="block text-text-muted">Link do Vídeo (YouTube):</label>
+                    <input type="url" id="videoUrlInput" placeholder="https://www.youtube.com/watch?v=..." class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light" required>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button type="submit" class="py-3 px-6 text-lg bg-btn-primary text-white rounded-lg font-semibold">Guardar Link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Sugestões de Vídeo do YouTube -->
+    <div id="videoSuggestionsModal" class="modal fixed inset-0 z-50 flex justify-center items-center p-4 hide">
+        <div class="modal-content bg-bg-container p-6 rounded-xl shadow-2xl border border-border-light w-full max-w-2xl relative">
+            <span id="closeVideoSuggestionsModal" class="absolute top-4 right-4 text-2xl font-bold text-text-muted cursor-pointer">&times;</span>
+            <h3 id="videoSuggestionsTitle" class="text-2xl font-semibold text-text-light mb-4">Sugestões de Vídeo</h3>
+            <div id="videoSuggestionsContainer" class="space-y-3 max-h-96 overflow-y-auto">
+                <!-- As sugestões de vídeo serão inseridas aqui -->
+            </div>
+        </div>
+    </div>
 
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, addDoc, collection, getDocs, getDoc, deleteDoc, serverTimestamp, query, where, updateDoc, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, addDoc, collection, getDocs, getDoc, deleteDoc, serverTimestamp, query, where, updateDoc, orderBy, limit, writeBatch } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
         
         // --- FUNÇÕES GLOBAIS / UTILITÁRIAS ---
         function toggleSpinner(show, message = "Aguarde...") {
@@ -630,14 +677,18 @@
             container.innerHTML = '';
 
             if (data.analiseNutricional) {
-                const { imc, tmb, caloriasRecomendadas } = data.analiseNutricional;
+                const { imc, tmb, caloriasRecomendadas, proteina, carboidratos, agua, creatina } = data.analiseNutricional;
                 container.innerHTML += `
                     <div class="mb-6 bg-bg-container p-4 rounded-lg border border-border-light">
-                        <h3 class="text-lg font-semibold text-primary-blue mb-2">Análise Corporal e Metas</h3>
-                        <div class="grid grid-cols-2 gap-2 text-sm">
+                        <h3 class="text-lg font-semibold text-primary-blue mb-2">Análise Corporal e Metas Diárias</h3>
+                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 text-sm">
                             <p><strong class="text-text-light">IMC:</strong> ${imc || 'N/D'}</p>
                             <p><strong class="text-text-light">TMB:</strong> ${tmb || 'N/D'}</p>
                             <p><strong class="text-text-light">Calorias (Obj.):</strong> ${caloriasRecomendadas || 'N/D'}</p>
+                            <p><strong class="text-text-light">Proteína:</strong> ${proteina || 'N/D'}</p>
+                            <p><strong class="text-text-light">Carboidratos:</strong> ${carboidratos || 'N/D'}</p>
+                            <p><strong class="text-text-light">Água:</strong> ${agua || 'N/D'}</p>
+                            <p><strong class="text-text-light">Creatina:</strong> ${creatina || 'N/D'}</p>
                         </div>
                     </div>
                 `;
@@ -658,16 +709,15 @@
                 let diaHTML = `<div class="mb-4">
                     <h3 class="text-xl font-semibold text-text-light border-b-2 border-primary-blue pb-1 mb-3">${dia.nome} <span class="text-base font-normal text-text-muted">- ${dia.musculos}</span></h3>`;
 
-                // Renderizar Aquecimento, Cardio, Arrefecimento
                 if (dia.aquecimento) diaHTML += `<div class="mb-3"><h4 class="font-semibold text-primary-blue text-sm">Aquecimento:</h4><p class="text-text-muted text-sm whitespace-pre-wrap">${dia.aquecimento}</p></div>`;
                 
                 if (dia.exercicios && Array.isArray(dia.exercicios) && dia.exercicios.length > 0) {
                     let exerciciosHTML = dia.exercicios.map(ex => {
                         const nomeExercicioComVideo = ex.videoUrl 
                             ? `<a href="${ex.videoUrl}" target="_blank" class="flex items-center text-primary-blue hover:underline">
-                                   <span>${ex.nome}</span>
-                                   <span class="ml-2">${youtubeIcon}</span>
-                               </a>` 
+                                    <span>${ex.nome}</span>
+                                    <span class="ml-2">${youtubeIcon}</span>
+                                </a>` 
                             : `<span>${ex.nome}</span>`;
 
                         const obsHTML = ex.obs ? `<tr class="bg-background-dark"><td colspan="4" class="text-xs text-primary-blue pt-1 pb-2 px-2">${ex.obs}</td></tr>` : '';
@@ -718,8 +768,10 @@
                 analiseNutricional: {},
                 avaliacoesCache: [],
                 treinoAbertoId: null,
-                alunosCache: [], 
-                apiKey: null, // NOVO: Armazena a chave de API
+                alunosCache: [],
+                exerciciosBibliotecaCache: [],
+                apiKey: null,
+                youtubeApiKey: null,
             };
 
             const telaLogin = document.getElementById('telaLogin');
@@ -784,15 +836,12 @@
             const closeShareLinkModal = document.getElementById('closeShareLinkModal');
             const shareableLinkInput = document.getElementById('shareableLinkInput');
             const btnCopyLink = document.getElementById('btnCopyLink');
-            
             const btnEditProfile = document.getElementById('btnEditProfile');
             const editProfileModal = document.getElementById('editProfileModal');
             const closeEditProfileModal = document.getElementById('closeEditProfileModal');
             const editProfileForm = document.getElementById('editProfileForm');
             const editNameInput = document.getElementById('editNameInput');
             const editDisplayNameInput = document.getElementById('editDisplayNameInput');
-
-            // --- NOVOS Elementos ---
             const alunoSearchInput = document.getElementById('alunoSearchInput');
             const alunoObjectiveFilter = document.getElementById('alunoObjectiveFilter');
             const btnLoadTemplate = document.getElementById('btnLoadTemplate');
@@ -805,8 +854,30 @@
             const closeSettingsModal = document.getElementById('closeSettingsModal');
             const settingsForm = document.getElementById('settingsForm');
             const apiKeyInput = document.getElementById('apiKeyInput');
-            const btnClearApiKey = document.getElementById('btnClearApiKey');
+            const youtubeApiKeyInput = document.getElementById('youtubeApiKeyInput');
+            const btnClearApiKeys = document.getElementById('btnClearApiKeys');
 
+            // --- Elementos da Biblioteca de Exercícios ---
+            const btnIrParaBiblioteca = document.getElementById('btnIrParaBiblioteca');
+            const telaBiblioteca = document.getElementById('telaBiblioteca');
+            const btnVoltarParaBoasVindas_Bib = document.getElementById('btnVoltarParaBoasVindas_Bib');
+            const btnPopularBiblioteca = document.getElementById('btnPopularBiblioteca');
+            const exercicioSearchInput = document.getElementById('exercicioSearchInput');
+            const exercicioGroupFilter = document.getElementById('exercicioGroupFilter');
+            const listaExerciciosBiblioteca = document.getElementById('listaExerciciosBiblioteca');
+            const videoLinkModal = document.getElementById('videoLinkModal');
+            const closeVideoLinkModal = document.getElementById('closeVideoLinkModal');
+            const formVideoLink = document.getElementById('formVideoLink');
+            const videoLinkModalTitle = document.getElementById('videoLinkModalTitle');
+            const videoLinkModalExercise = document.getElementById('videoLinkModalExercise');
+            const exerciseIdHidden = document.getElementById('exerciseIdHidden');
+            const exerciseNameHidden = document.getElementById('exerciseNameHidden');
+            const exerciseGroupHidden = document.getElementById('exerciseGroupHidden');
+            const videoUrlInput = document.getElementById('videoUrlInput');
+            const videoSuggestionsModal = document.getElementById('videoSuggestionsModal');
+            const closeVideoSuggestionsModal = document.getElementById('closeVideoSuggestionsModal');
+            const videoSuggestionsContainer = document.getElementById('videoSuggestionsContainer');
+            const videoSuggestionsTitle = document.getElementById('videoSuggestionsTitle');
 
             const iconEye = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.01 9.963 7.182.373.836-.018 1.76-.942 1.956a1.012 1.012 0 01-1.258-.453C18.663 15.045 15.564 18 12 18c-3.564 0-6.663-2.955-8.22-5.468z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`;
             const iconEyeSlash = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243l-4.243-4.243" /></svg>`;
@@ -829,7 +900,8 @@
                     telaCadastro.classList.add('hide');
                     appContent.classList.remove('hide');
                     
-                    loadApiKey(); // NOVO: Carrega a chave de API ao logar
+                    loadApiKeys();
+                    getBibliotecaExercicios(); // Pre-carrega a biblioteca no login
                     updateWelcomeMessage();
                     mostrarTela('telaBoasVindas');
 
@@ -913,38 +985,53 @@
                 showNotification(title, message, 'error');
             }
             
-            // --- NOVO: LÓGICA DE API KEY ---
-            function loadApiKey() {
-                const storedKey = localStorage.getItem('googleAiApiKey');
-                if (storedKey) {
-                    appState.apiKey = storedKey;
-                    apiKeyInput.value = storedKey;
+            // --- LÓGICA DE API KEY ---
+            function loadApiKeys() {
+                const storedGoogleKey = localStorage.getItem('googleAiApiKey');
+                if (storedGoogleKey) {
+                    appState.apiKey = storedGoogleKey;
+                    apiKeyInput.value = storedGoogleKey;
+                }
+                const storedYoutubeKey = localStorage.getItem('youtubeApiKey');
+                if (storedYoutubeKey) {
+                    appState.youtubeApiKey = storedYoutubeKey;
+                    youtubeApiKeyInput.value = storedYoutubeKey;
                 }
             }
+
             btnShowSettings.addEventListener('click', () => {
                 settingsModal.classList.remove('hide');
             });
+
             closeSettingsModal.addEventListener('click', () => settingsModal.classList.add('hide'));
+
             settingsForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const newKey = apiKeyInput.value.trim();
-                if (newKey) {
-                    appState.apiKey = newKey;
-                    localStorage.setItem('googleAiApiKey', newKey);
-                    showNotification("Sucesso", "Chave de API guardada com sucesso!");
-                    settingsModal.classList.add('hide');
-                } else {
-                    showNotification("Atenção", "Por favor, insira uma chave de API válida.", "error");
+                const newGoogleKey = apiKeyInput.value.trim();
+                const newYoutubeKey = youtubeApiKeyInput.value.trim();
+
+                if (newGoogleKey) {
+                    appState.apiKey = newGoogleKey;
+                    localStorage.setItem('googleAiApiKey', newGoogleKey);
                 }
-            });
-            btnClearApiKey.addEventListener('click', () => {
-                appState.apiKey = null;
-                localStorage.removeItem('googleAiApiKey');
-                apiKeyInput.value = '';
-                showNotification("Sucesso", "Chave de API removida.");
+                if (newYoutubeKey) {
+                    appState.youtubeApiKey = newYoutubeKey;
+                    localStorage.setItem('youtubeApiKey', newYoutubeKey);
+                }
+                showNotification("Sucesso", "Chaves de API guardadas com sucesso!");
                 settingsModal.classList.add('hide');
             });
 
+            btnClearApiKeys.addEventListener('click', () => {
+                appState.apiKey = null;
+                appState.youtubeApiKey = null;
+                localStorage.removeItem('googleAiApiKey');
+                localStorage.removeItem('youtubeApiKey');
+                apiKeyInput.value = '';
+                youtubeApiKeyInput.value = '';
+                showNotification("Sucesso", "Chaves de API removidas.");
+                settingsModal.classList.add('hide');
+            });
 
             // --- LÓGICA DE PERFIL DO TREINADOR ---
             btnEditProfile.addEventListener('click', async () => {
@@ -1020,16 +1107,9 @@
 
             // --- LÓGICA DE ALUNOS ---
             btnIrParaAlunos.addEventListener('click', () => {
-                carregarAlunos();
                 mostrarTela('telaAlunos');
+                carregarAlunos();
             });
-            btnAdicionarAlunoRapido.addEventListener('click', () => {
-                formAddAluno.reset();
-                alunoIdHidden.value = '';
-                modalAlunoTitle.textContent = "Registar Novo Aluno";
-                addAlunoModal.classList.remove('hide');
-            });
-            btnVoltarParaAlunos.addEventListener('click', () => { appState.alunoSelecionado = null; mostrarTela('telaBoasVindas'); });
             btnShowAddAlunoModal.addEventListener('click', () => {
                 formAddAluno.reset();
                 alunoIdHidden.value = '';
@@ -1088,7 +1168,7 @@
 
                     formAddAluno.reset();
                     addAlunoModal.classList.add('hide');
-                    await carregarAlunos(); // Recarrega os dados do cache
+                    await carregarAlunos(); 
                 } catch (error) { 
                     console.error("Erro ao guardar aluno:", error);
                     showNotification("Erro", "Erro ao guardar dados do aluno.", "error");
@@ -1097,7 +1177,6 @@
                 }
             });
 
-            // NOVO: Event listeners para filtros
             alunoSearchInput.addEventListener('input', () => renderAlunosList());
             alunoObjectiveFilter.addEventListener('change', () => renderAlunosList());
 
@@ -1106,7 +1185,7 @@
                 listaAlunos.innerHTML = `<p class="text-text-muted text-center py-8">A carregar...</p>`;
                 try {
                     const alunosRef = collection(db, "usuarios", appState.currentUser.uid, "alunos");
-                    const querySnapshot = await getDocs(alunosRef);
+                    const querySnapshot = await getDocs(query(alunosRef, orderBy("nome")));
                     
                     appState.alunosCache = [];
                     querySnapshot.forEach(doc => {
@@ -1122,19 +1201,19 @@
                 }
             }
 
-            // NOVO: Popula o filtro de objetivos
             function populateObjectiveFilter() {
-                const objectives = new Set(appState.alunosCache.map(aluno => aluno.objetivo));
+                const objectives = [...new Set(appState.alunosCache.map(aluno => aluno.objetivo))].sort();
                 alunoObjectiveFilter.innerHTML = '<option value="">Filtrar por objetivo</option>';
                 objectives.forEach(obj => {
-                    const option = document.createElement('option');
-                    option.value = obj;
-                    option.textContent = obj;
-                    alunoObjectiveFilter.appendChild(option);
+                    if (obj) {
+                        const option = document.createElement('option');
+                        option.value = obj;
+                        option.textContent = obj;
+                        alunoObjectiveFilter.appendChild(option);
+                    }
                 });
             }
 
-            // NOVO: Renderiza a lista de alunos com base nos filtros
             function renderAlunosList() {
                 const searchTerm = alunoSearchInput.value.toLowerCase();
                 const selectedObjective = alunoObjectiveFilter.value;
@@ -1147,10 +1226,10 @@
 
                 if (filteredAlunos.length === 0) {
                      if(appState.alunosCache.length === 0) {
-                        listaAlunos.innerHTML = `<p class="text-text-muted text-center py-8">Nenhum aluno registado. Clique em "+ Adicionar Aluno" para começar.</p>`;
-                    } else {
-                        listaAlunos.innerHTML = `<p class="text-text-muted text-center py-8">Nenhum aluno encontrado com os filtros atuais.</p>`;
-                    }
+                         listaAlunos.innerHTML = `<div class="text-center p-8"><h3 class="text-xl font-semibold">Bem-vindo!</h3><p class="text-text-muted mt-2">Parece que ainda não tem alunos. Clique em "+ Adicionar Aluno" para começar a criar planos de treino.</p></div>`;
+                     } else {
+                         listaAlunos.innerHTML = `<p class="text-text-muted text-center py-8">Nenhum aluno encontrado com os filtros atuais.</p>`;
+                     }
                     return;
                 }
                 
@@ -1170,10 +1249,10 @@
                             </div>
                         </div>
                         <div class="flex items-center">
-                            <button class="btn-editar-aluno text-primary-blue hover:text-opacity-80 p-2 rounded-full" data-alunoid="${aluno.id}">
+                            <button class="btn-editar-aluno text-primary-blue hover:text-opacity-80 p-2 rounded-full" data-alunoid="${aluno.id}" title="Editar Aluno">
                                 <svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             </button>
-                            <button class="btn-excluir-aluno text-red-500 hover:text-red-400 p-2 rounded-full" data-alunoid="${aluno.id}">
+                            <button class="btn-excluir-aluno text-red-500 hover:text-red-400 p-2 rounded-full" data-alunoid="${aluno.id}" title="Excluir Aluno">
                                 <svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </div>`;
@@ -1273,7 +1352,7 @@
                     toggleSpinner(false);
                 }
             }
-                                
+                                    
             // --- LÓGICA DE ACOMPANHAMENTO ---
             btnAcompanharEvolucao.addEventListener('click', () => {
                 if (!appState.alunoSelecionado) return;
@@ -1312,7 +1391,7 @@
                     await addDoc(avaliacoesRef, { data, peso, medidas, criadoEm: serverTimestamp() });
                     showNotification("Sucesso!", "Avaliação guardada com sucesso!");
                     addAvaliacaoModal.classList.add('hide');
-                    carregarAvaliacoes(); // Alterado para carregar avaliações em vez de alunos
+                    carregarAvaliacoes();
                 } catch (error) {
                     showNotification("Erro", "Erro ao guardar avaliação.", "error");
                     console.error("Erro:", error);
@@ -1326,7 +1405,7 @@
                 listaAvaliacoes.innerHTML = `<p class="text-text-muted text-center py-8">A carregar histórico...</p>`;
                 try {
                     const avaliacoesRef = collection(db, "usuarios", appState.currentUser.uid, "alunos", appState.alunoSelecionado.id, "avaliacoes");
-                    const querySnapshot = await getDocs(avaliacoesRef);
+                    const querySnapshot = await getDocs(query(avaliacoesRef, orderBy("data", "desc")));
 
                     if (querySnapshot.empty) {
                         listaAvaliacoes.innerHTML = `<p class="text-text-muted text-center py-8">Nenhuma avaliação registada. Clique em "+ Nova Avaliação" para começar.</p>`;
@@ -1337,7 +1416,6 @@
                     const avaliacoes = [];
                     querySnapshot.forEach(doc => avaliacoes.push({ id: doc.id, ...doc.data() }));
                     
-                    avaliacoes.sort((a, b) => new Date(a.data) - new Date(b.data));
                     appState.avaliacoesCache = avaliacoes;
 
                     renderizarListaAvaliacoes();
@@ -1349,9 +1427,8 @@
 
             function renderizarListaAvaliacoes() {
                 listaAvaliacoes.innerHTML = '';
-                const avaliacoesOrdenadas = [...appState.avaliacoesCache].sort((a, b) => new Date(b.data) - new Date(a.data));
 
-                avaliacoesOrdenadas.forEach((av, index) => {
+                appState.avaliacoesCache.forEach((av, index) => {
                     const dataFormatada = new Date(av.data + 'T00:00:00').toLocaleDateString('pt-BR');
                     let medidasHTML = Object.entries(av.medidas || {}).map(([key, value]) => `
                         <div class="text-sm"><span class="capitalize text-text-muted">${key.replace(/_/g, ' ')}:</span> <strong class="text-text-light">${value} cm</strong></div>
@@ -1368,11 +1445,11 @@
                                 <p class="font-semibold text-text-light text-lg">${av.peso} kg</p>
                             </div>
                             <div class="flex gap-2 self-end sm:self-start">
-                                <button class="btn-ver-grafico py-2 px-3 text-sm bg-btn-success text-white rounded-lg font-semibold flex items-center gap-1" data-avaliacaoindex="${index}">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                                <button class="btn-ver-grafico py-2 px-3 text-sm bg-btn-success text-white rounded-lg font-semibold flex items-center gap-1" data-avaliacaoindex="${index}" title="Ver Gráfico de Progresso">
+                                    <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                                     Gráfico
                                 </button>
-                                <button class="btn-excluir-avaliacao text-red-500 hover:text-red-400 p-2 rounded-full" data-avaliacaoid="${av.id}">
+                                <button class="btn-excluir-avaliacao text-red-500 hover:text-red-400 p-2 rounded-full" data-avaliacaoid="${av.id}" title="Excluir Avaliação">
                                     <svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
                             </div>
@@ -1418,9 +1495,9 @@
             closeChartModal.addEventListener('click', () => chartModal.classList.add('hide'));
 
             function abrirModalGrafico(index) {
-                const avaliacoesOrdenadas = [...appState.avaliacoesCache].sort((a, b) => new Date(b.data) - new Date(a.data));
-                const avaliacaoAtual = avaliacoesOrdenadas[index];
-                const avaliacaoAnterior = avaliacoesOrdenadas[index + 1] || null;
+                const avaliacoesOrdenadas = [...appState.avaliacoesCache].sort((a,b) => new Date(a.data) - new Date(b.data));
+                const avaliacaoAtual = avaliacoesOrdenadas[avaliacoesOrdenadas.length - 1 - index];
+                const avaliacaoAnterior = avaliacoesOrdenadas[avaliacoesOrdenadas.length - 2 - index] || null;
 
                 const dataFormatada = new Date(avaliacaoAtual.data + 'T00:00:00').toLocaleDateString('pt-BR');
                 chartModalTitle.textContent = `Progresso até ${dataFormatada}`;
@@ -1437,8 +1514,8 @@
                     weightChartInstance.destroy();
                 }
                 
-                const labels = appState.avaliacoesCache.map(av => new Date(av.data + 'T00:00:00').toLocaleDateString('pt-BR'));
-                const data = appState.avaliacoesCache.map(av => av.peso);
+                const labels = [...appState.avaliacoesCache].sort((a,b) => new Date(a.data) - new Date(b.data)).map(av => new Date(av.data + 'T00:00:00').toLocaleDateString('pt-BR'));
+                const data = [...appState.avaliacoesCache].sort((a,b) => new Date(a.data) - new Date(b.data)).map(av => av.peso);
 
                 weightChartInstance = new Chart(ctx, {
                     type: 'line',
@@ -1578,6 +1655,41 @@
                 return gastoTotal.toFixed(0);
             }
 
+            function calcularProteina(peso) {
+                if (!peso) return "N/D";
+                const min = (peso * 1.6).toFixed(0);
+                const max = (peso * 2.2).toFixed(0);
+                return `${min}g - ${max}g`;
+            }
+
+            function calcularCarboidratos(peso, objetivoAluno) {
+                if (!peso) return "N/D";
+                const objetivo = objetivoAluno || document.getElementById('objetivo').value;
+                let minFactor = 2;
+                let maxFactor = 5;
+                if (objetivo.toLowerCase().includes('hipertrofia')) {
+                    minFactor = 4;
+                    maxFactor = 6;
+                } else if (objetivo.toLowerCase().includes('emagrecimento')) {
+                    minFactor = 2;
+                    maxFactor = 4;
+                }
+                const min = (peso * minFactor).toFixed(0);
+                const max = (peso * maxFactor).toFixed(0);
+                return `${min}g - ${max}g`;
+            }
+
+            function calcularAgua(peso) {
+                if (!peso) return "N/D";
+                const min = (peso * 35 / 1000).toFixed(1);
+                const max = (peso * 50 / 1000).toFixed(1);
+                return `${min}L - ${max}L`;
+            }
+
+            function calcularCreatina() {
+                return "3g - 5g";
+            }
+
             // --- LÓGICA DE GERAÇÃO DE TREINO ---
             btnNovoTreino.addEventListener('click', () => {
                 if (!appState.alunoSelecionado) return;
@@ -1585,7 +1697,7 @@
                 appState.treinoAbertoId = null; 
 
                 const { altura, idade, objetivo, sexo } = appState.alunoSelecionado;
-                const ultimoPeso = appState.avaliacoesCache.length > 0 ? appState.avaliacoesCache[appState.avaliacoesCache.length - 1].peso : appState.alunoSelecionado.pesoInicial;
+                const ultimoPeso = appState.avaliacoesCache.length > 0 ? appState.avaliacoesCache[0].peso : appState.alunoSelecionado.pesoInicial;
                 const imc = calcularIMC(ultimoPeso, altura);
                 const tmb = calcularTMB(ultimoPeso, altura, idade, sexo);
                 const calorias = calcularCaloriasRecomendadas(tmb, objetivo);
@@ -1594,7 +1706,10 @@
                     imc: `${imc.valor} (${imc.classificacao})`,
                     tmb: `${tmb} kcal`,
                     caloriasRecomendadas: `${calorias} kcal`,
-                    pesoIdeal: `~${(22 * (altura/100) * (altura/100)).toFixed(1)} kg`,
+                    proteina: calcularProteina(ultimoPeso),
+                    carboidratos: calcularCarboidratos(ultimoPeso, objetivo),
+                    agua: calcularAgua(ultimoPeso),
+                    creatina: calcularCreatina(),
                     dataCriacao: new Date().toLocaleDateString('pt-BR')
                 };
                 
@@ -1687,35 +1802,11 @@
                 }
             }
             
-            async function isVideoUrlValid(youtubeUrl) {
-                if (!youtubeUrl || typeof youtubeUrl !== 'string') return false;
-                let videoId = null;
-                try {
-                    const url = new URL(youtubeUrl);
-                    if (url.hostname === 'youtu.be') {
-                        videoId = url.pathname.slice(1);
-                    } else if (url.hostname.includes('youtube.com')) {
-                        videoId = url.searchParams.get('v');
-                    }
-                } catch (e) { return false; }
-
-                if (!videoId) return false;
-
-                try {
-                    const response = await fetch(`https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=${videoId}&format=json`);
-                    return response.ok;
-                } catch (error) {
-                    console.error("Erro ao verificar URL do vídeo:", error);
-                    return false;
-                }
-            }
-
-
             btnGerarComIA.addEventListener('click', async () => {
                 if (!appState.alunoSelecionado) return;
                 
                 if (!appState.apiKey) {
-                    showNotification("Atenção", "Por favor, configure a sua chave de API nas configurações (⚙️) antes de gerar um treino.", "error");
+                    showNotification("Atenção", "Por favor, configure a sua chave de API do Google AI nas configurações (⚙️) antes de gerar um treino.", "error");
                     settingsModal.classList.remove('hide');
                     return;
                 }
@@ -1733,59 +1824,41 @@
 
                 const exerciseHistory = await getExerciseHistory(appState.alunoSelecionado.id);
 
-                let prompt = `Você é um Personal Trainer de elite, especialista em fisiologia do exercício. Sua missão é criar o melhor plano de treino possível, detalhado, científico e motivador.
+                let prompt = `Você é um Personal Trainer de elite, focado em criar o plano de treino perfeito e seguir as instruções à risca.
+                
+## Regras Críticas e Obrigatórias:
+- **NÃO INCLUA videoUrl:** A sua única tarefa é fornecer os nomes dos exercícios. Não inclua NENHUM URL de vídeo no JSON de resposta.
+- **Volume de Treino:** Cada dia de treino DEVE conter obrigatoriamente entre 6 e 8 exercícios. Não menos que 6, não mais que 8.
+- **Aquecimento e Arrefecimento:** Para CADA dia de treino, crie uma sugestão específica e apropriada para "aquecimento" e "arrefecimento". Estes campos não podem ficar vazios.
+- **Cardio:** Para CADA dia de treino, adicione uma sugestão de cardio no campo "cardio".
+- **Coesão Muscular:** Todos os exercícios de um dia devem pertencer aos grupos musculares definidos para esse dia.
+- **Ordem Inteligente:** Comece com exercícios compostos, depois isolados. Agrupe por músculo. Abdômen no final.
+- **Exercícios Reais:** Use nomes de exercícios comuns de academia.
+- **Evitar Repetição:** Priorize exercícios que NÃO ESTÃO no histórico fornecido.
 
-## Regra de Ouro: Coesão e Ordem Lógica (CRÍTICO)
-- **Coesão Muscular:** Para cada dia de treino, **TODOS** os exercícios listados **DEVEM** pertencer aos grupos musculares definidos para aquele dia. É inaceitável incluir um exercício de quadríceps num dia de "Posterior e Glúteo". A ativação secundária de outros músculos é normal, mas o foco principal do exercício deve ser o grupo muscular do dia.
-- **Ordem Inteligente dos Exercícios:** A sequência dos exercícios dentro de cada dia é fundamental. Siga esta estrutura profissional:
-    1.  Comece com os exercícios **compostos e multiarticulares** (ex: Agachamentos, Supinos, Remadas).
-    2.  Prossiga para os exercícios **isolados ou monoarticulares** (ex: Rosca Bíceps, Extensão de Tríceps, Cadeira Extensora).
-    3.  **Agrupe os exercícios por músculo.** Não salte entre grupos musculares. Exemplo para um dia de Peito e Tríceps:
-        - **CORRETO:** Supino Reto, Supino Inclinado, Crucifixo, e DEPOIS Tríceps Pulley, Tríceps Testa.
-        - **INCORRETO:** Supino Reto, Tríceps Pulley, Supino Inclinado.
-    4.  Exercícios para o core/abdômen devem ser colocados no final da sessão.
-
-## Regras Gerais Obrigatórias:
-- **Exercícios Reais e Links Sugeridos:** Todos os exercícios devem ter nomes comuns de academia. **É OBRATÓRIO** incluir uma SUGESTÃO de \`videoUrl\` funcional do YouTube para CADA exercício.
-- **Formato de Saída:** Responda APENAS com o objeto JSON.
-- **Volume e Estrutura:** Cada dia de treino deve conter pelo menos 5-7 exercícios.
-- **Criatividade e Inovação:** É crucial que este plano de treino seja novo. **NÃO REPITA** exercícios de planos anteriores. Use variações.
-- **Análise do Histórico:** Foi fornecido um histórico de exercícios. **É MANDATÓRIO priorizar exercícios que NÃO ESTÃO NESTA LISTA.**
-- **Dicas Inteligentes:** Se solicitado, gere 3 a 5 dicas personalizadas e acionáveis.
-`;
-
-                if (appState.alunoSelecionado.sexo === 'Feminino') {
-                    prompt += `
----
-## Instruções Específicas para Treino Feminino:
-- **Foco nos Objetivos:** Dê ênfase especial ao desenvolvimento de glúteos, posteriores e quadríceps.
-- **Seleção de Exercícios:** Priorize exercícios como agachamento, levantamento terra romeno, elevação pélvica, afundo e cadeira abdutora.
-- **Membros Superiores:** Construa um treino equilibrado para costas e ombros.
----
-`;
-                }
-
-                prompt += `
----
-Crie o plano de treino para o(a) seguinte aluno(a):
-- Aluno(a): "${appState.alunoSelecionado.nome}"
-- Sexo: ${appState.alunoSelecionado.sexo}
-- Idade: ${appState.alunoSelecionado.idade} anos
+## Dados do Aluno:
+- Aluno(a): "${appState.alunoSelecionado.nome}", Sexo: ${appState.alunoSelecionado.sexo}, Idade: ${appState.alunoSelecionado.idade} anos
 - Nível: ${dificuldadeSelect.value}
 - Objetivo Principal: ${document.getElementById('objetivo').value}
-- Frequência: ${diasSemanaSelect.value} dias por semana
-- Divisão de Treino Sugerida: ${divisaoTreinoSelect.value}`;
+- Frequência: ${diasSemanaSelect.value} dias/semana
+- Divisão Sugerida: ${divisaoTreinoSelect.value}`;
+
+                if (observacoesIA) {
+                    prompt += `
+
+## Ordem Prioritária do Treinador (OBRIGATÓRIO CUMPRIR):
+- As seguintes instruções do treinador TÊM PRIORIDADE MÁXIMA sobre todas as outras regras. Cumpra-as exatamente como descrito:
+- "${observacoesIA}"`;
+                }
 
                 if (exerciseHistory) { prompt += exerciseHistory; }
-                if (duracaoTreino !== 'N/A') { prompt += `\n- **Duração Máxima por Sessão:** ${duracaoTreino}.`; }
-                if (treinoEmCasa) { prompt += `\n- **Local do Treino:** Treino em casa. Utilize APENAS o peso corporal.`; }
-                if (incluirTecnicas) { prompt += `\n- **Técnicas Avançadas:** Incorpore UMA técnica avançada em no MÁXIMO DOIS exercícios por dia.`; }
-                if (musculoEnfase) { prompt += `\n- **Ênfase Muscular:** Foco especial em: ${musculoEnfase}.`; }
-                if (incluirDicas) { prompt += `\n- **Descrições e Dicas:** Forneça a descrição das técnicas e dicas personalizadas.`; }
-                if (observacoesIA) { prompt += `\n- **Observações IMPORTANTES do Treinador:** ${observacoesIA}.`; }
-                prompt += `\nResponda APENAS com o JSON estruturado conforme o schema solicitado.`;
+                if (duracaoTreino !== 'N/A') { prompt += `\n- Duração Máxima: ${duracaoTreino}.`; }
+                if (treinoEmCasa) { prompt += `\n- Local: Treino em casa (apenas peso corporal).`; }
+                if (incluirTecnicas) { prompt += `\n- Incluir técnicas avançadas.`; }
+                if (musculoEnfase) { prompt += `\n- Ênfase em: ${musculoEnfase}.`; }
+                if (incluirDicas) { prompt += `\n- Fornecer descrições de técnicas e dicas.`; }
+                prompt += `\n\nResponda APENAS com o JSON estruturado conforme o schema.`;
                 
-
                 const schema = {
                     type: "OBJECT",
                     properties: {
@@ -1804,15 +1877,15 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                                             type: "OBJECT", 
                                             properties: { 
                                                 nome: { type: "STRING" }, series: { type: "STRING" }, reps: { type: "STRING" },
-                                                descanso: { type: "STRING" }, obs: { type: "STRING" }, videoUrl: { type: "STRING" }
+                                                descanso: { type: "STRING" }, obs: { type: "STRING" }
                                             },
-                                            required: ["nome", "series", "reps", "descanso", "videoUrl"]
+                                            required: ["nome", "series", "reps", "descanso"]
                                         } 
                                     },
                                     cardio: { type: "STRING" },
                                     arrefecimento: { type: "STRING" }
                                 },
-                                required: ["nome_dia", "grupos_musculares", "exercicios"]
+                                required: ["nome_dia", "grupos_musculares", "aquecimento", "exercicios", "cardio", "arrefecimento"]
                             } 
                         },
                         tecnicas_utilizadas: { type: "ARRAY", items: { type: "OBJECT", properties: { nome: { type: "STRING" }, descricao: { type: "STRING" } } } },
@@ -1859,30 +1932,22 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                         console.error("A resposta da IA não contém um 'plano_semanal' válido ou está vazio.", treinoJson);
                         throw new Error("A IA retornou um formato de dados inesperado. O plano de treino semanal está em falta ou vazio. Tente novamente.");
                     }
-                    
-                    toggleSpinner(true, "A verificar links dos vídeos...");
-                    const validationPromises = [];
-                    if (treinoJson.plano_semanal) {
-                        treinoJson.plano_semanal.forEach(dia => {
-                            if (dia.exercicios) {
-                                dia.exercicios.forEach(ex => {
-                                    if (ex.videoUrl) {
-                                        validationPromises.push(
-                                            isVideoUrlValid(ex.videoUrl).then(isValid => {
-                                                if (!isValid) {
-                                                    ex.videoUrl = ''; 
-                                                }
-                                            })
-                                        );
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    await Promise.all(validationPromises);
 
+                    toggleSpinner(true, "A associar vídeos da sua biblioteca...");
+
+                    // Anexar URLs de vídeo da biblioteca
+                    const biblioteca = await getBibliotecaExercicios();
+                    const bibliotecaMap = new Map(biblioteca.map(ex => [ex.nome.toLowerCase().trim(), ex.videoUrl]));
+
+                    treinoJson.plano_semanal.forEach(dia => {
+                        dia.exercicios.forEach(ex => {
+                            const videoUrl = bibliotecaMap.get(ex.nome.toLowerCase().trim());
+                            ex.videoUrl = videoUrl || ''; // Adiciona o URL se existir
+                        });
+                    });
+                    
                     preencherFormularioComIA(treinoJson);
-                    showNotification("Sucesso!", "Sugestão de treino gerada e links verificados!");
+                    showNotification("Sucesso!", "Sugestão de treino gerada e vídeos associados!");
 
                 } catch (error) {
                     console.error("Erro ao gerar treino com IA:", error);
@@ -1947,7 +2012,6 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                     <div>
                         <input type="text" placeholder="Grupos Musculares (Ex: Peito, Ombro, Tríceps)" value="${musculos}" class="dia-musculos w-full p-3 bg-bg-container border-border-light border rounded-lg text-md" required>
                     </div>
-                    <!-- NOVOS CAMPOS AQUECIMENTO/CARDIO/ARREFECIMENTO -->
                     <div><textarea placeholder="Aquecimento (opcional)..." class="dia-aquecimento w-full p-2 bg-bg-container border-border-light border rounded text-sm">${aquecimento}</textarea></div>
                     <div class="exercicios-container space-y-4"></div>
                     <button type="button" class="btn-add-exercicio w-full py-2 text-md bg-btn-secondary text-white rounded-lg font-semibold mt-2">+ Adicionar Exercício Manualmente</button>
@@ -1975,7 +2039,7 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                         <input type="text" placeholder="Obs. (ex: Drop set)" value="${ex.obs || ''}" class="ex-obs w-full p-2 bg-bg-container border-border-light border rounded text-sm">
                         <div class="flex items-center gap-2">
-                            <input type="url" placeholder="Link do YouTube (verificar)" value="${ex.videoUrl || ''}" class="ex-video-url w-full p-2 bg-bg-container border-border-light border rounded text-sm">
+                            <input type="url" placeholder="Link do YouTube" value="${ex.videoUrl || ''}" class="ex-video-url w-full p-2 bg-bg-container border-border-light border rounded text-sm">
                             <button type="button" class="btn-testar-video text-primary-blue hover:text-opacity-80 p-1 rounded-full" title="Testar Link do Vídeo">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
                             </button>
@@ -2030,7 +2094,6 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                     appState.treinoSemanal.push({ 
                         nome: nomeDia, 
                         musculos: musculosDia, 
-                        // NOVO: Coleta dos novos campos
                         aquecimento: diaEl.querySelector('.dia-aquecimento').value,
                         exercicios,
                         cardio: diaEl.querySelector('.dia-cardio').value,
@@ -2053,13 +2116,17 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                 container.innerHTML = '';
                 analiseContainer.innerHTML = '';
 
-                const { imc, tmb, caloriasRecomendadas } = appState.analiseNutricional || {};
+                const { imc, tmb, caloriasRecomendadas, proteina, carboidratos, agua, creatina } = appState.analiseNutricional || {};
                 analiseContainer.innerHTML = `
-                    <h3 class="text-lg font-semibold text-primary-blue mb-2">Análise Rápida</h3>
-                    <div class="grid grid-cols-2 gap-2 text-sm">
+                    <h3 class="text-lg font-semibold text-primary-blue mb-2">Análise Rápida & Metas Diárias</h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 text-sm">
                         <p><strong class="text-text-light">IMC:</strong> ${imc || 'N/D'}</p>
                         <p><strong class="text-text-light">TMB:</strong> ${tmb || 'N/D'}</p>
                         <p><strong class="text-text-light">Calorias (Obj.):</strong> ${caloriasRecomendadas || 'N/D'}</p>
+                        <p><strong class="text-text-light">Proteína:</strong> ${proteina || 'N/D'}</p>
+                        <p><strong class="text-text-light">Carboidratos:</strong> ${carboidratos || 'N/D'}</p>
+                        <p><strong class="text-text-light">Água:</strong> ${agua || 'N/D'}</p>
+                        <p><strong class="text-text-light">Creatina:</strong> ${creatina || 'N/D'}</p>
                     </div>
                 `;
                 
@@ -2073,7 +2140,6 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                     let diaHTML = `<div class="mb-4">
                         <h3 class="text-xl font-semibold text-text-light border-b-2 border-primary-blue pb-1 mb-2">${dia.nome} <span class="text-base font-normal text-text-muted">- ${dia.musculos}</span></h3>`;
 
-                    // NOVO: Renderizar Aquecimento, Cardio, Arrefecimento
                     if(dia.aquecimento) diaHTML += `<div class="mb-3"><h4 class="font-semibold text-primary-blue text-sm">Aquecimento:</h4><p class="text-text-muted text-sm whitespace-pre-wrap">${dia.aquecimento}</p></div>`;
 
                     if (dia.exercicios && dia.exercicios.length > 0) {
@@ -2086,7 +2152,7 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                          }).join('');
                          diaHTML += `<ul class="space-y-1">${exerciciosHTML}</ul>`;
                     }
-                   
+                    
                     if(dia.cardio) diaHTML += `<div class="mt-3"><h4 class="font-semibold text-primary-blue text-sm">Cardio:</h4><p class="text-text-muted text-sm whitespace-pre-wrap">${dia.cardio}</p></div>`;
                     if(dia.arrefecimento) diaHTML += `<div class="mt-3"><h4 class="font-semibold text-primary-blue text-sm">Arrefecimento:</h4><p class="text-text-muted text-sm whitespace-pre-wrap">${dia.arrefecimento}</p></div>`;
 
@@ -2168,7 +2234,7 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                 container.innerHTML = `<p class="text-text-muted text-center py-8">A carregar...</p>`;
                 try {
                     const treinosRef = collection(db, "usuarios", appState.currentUser.uid, "alunos", appState.alunoSelecionado.id, "treinos");
-                    const querySnapshot = await getDocs(treinosRef);
+                    const querySnapshot = await getDocs(query(treinosRef, orderBy("criadoEm", "desc")));
 
                     if (querySnapshot.empty) {
                         container.innerHTML = `<p class="text-text-muted text-center py-8">Nenhum treino guardado para este aluno.</p>`;
@@ -2311,21 +2377,78 @@ Crie o plano de treino para o(a) seguinte aluno(a):
 
                 const { nome, altura, idade, objetivo, pesoInicial, sexo } = appState.alunoSelecionado;
                 const temAvaliacoes = appState.avaliacoesCache && appState.avaliacoesCache.length > 0;
-                const ultimoPeso = temAvaliacoes ? appState.avaliacoesCache[appState.avaliacoesCache.length - 1].peso : pesoInicial;
+                const ultimoPeso = temAvaliacoes ? appState.avaliacoesCache[0].peso : pesoInicial;
                 
                 const analise = {
-                    imc: calcularIMC(ultimoPeso, altura), tmb: calcularTMB(ultimoPeso, altura, idade, sexo),
+                    imc: calcularIMC(ultimoPeso, altura),
+                    tmb: calcularTMB(ultimoPeso, altura, idade, sexo),
                     caloriasRecomendadas: calcularCaloriasRecomendadas(calcularTMB(ultimoPeso, altura, idade, sexo), objetivo),
-                    pesoIdeal: `~${(22 * (altura/100) * (altura/100)).toFixed(1)} kg`
+                    proteina: calcularProteina(ultimoPeso),
+                    carboidratos: calcularCarboidratos(ultimoPeso, objetivo),
+                    agua: calcularAgua(ultimoPeso),
+                    creatina: calcularCreatina()
                 };
 
-                const addHeader = () => { /* ... (código existente) ... */ };
-                const addFooter = (page, total) => { /* ... (código existente) ... */ };
+                const addHeader = () => {
+                    yPosition = 20;
+                    doc.setFontSize(22);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(PRIMARY_COLOR);
+                    doc.text('Plano de Treino', MARGIN, yPosition);
+                    yPosition += 10;
+                    
+                    doc.setFontSize(14);
+                    doc.setTextColor(TEXT_COLOR);
+                    doc.text(nome, MARGIN, yPosition);
+                    yPosition += 6;
+
+                    doc.setFontSize(10);
+                    doc.setTextColor(LIGHT_TEXT_COLOR);
+                    doc.text(`Preparado por: ${appState.currentUser.displayName}`, MARGIN, yPosition);
+                    yPosition += 10;
+                    
+                    const studentData = [
+                        ['Idade', `${idade} anos`, 'Altura', `${altura} cm`, 'Peso Atual', `${ultimoPeso} kg`],
+                        ['Objetivo', objetivo, 'IMC', `${analise.imc.valor} (${analise.imc.classificacao})`, 'TMB', `${analise.tmb} kcal`],
+                        ['Calorias (Obj.)', `${analise.caloriasRecomendadas} kcal`, 'Proteína', `${analise.proteina}`, 'Carboidratos', `${analise.carboidratos}`],
+                        ['Água', `${analise.agua}`, 'Creatina', `${analise.creatina}`, '', '']
+                    ];
+
+                    doc.autoTable({
+                        startY: yPosition,
+                        body: studentData,
+                        theme: 'plain',
+                        styles: { fontSize: 9, cellPadding: 1.5 },
+                        columnStyles: {
+                            0: { fontStyle: 'bold', textColor: TEXT_COLOR },
+                            2: { fontStyle: 'bold', textColor: TEXT_COLOR },
+                            4: { fontStyle: 'bold', textColor: TEXT_COLOR }
+                        }
+                    });
+
+                    yPosition = doc.autoTable.previous.finalY + 10;
+                };
+
+                const addFooter = (page, total) => {
+                    doc.setFontSize(8);
+                    doc.setTextColor(LIGHT_TEXT_COLOR);
+                    doc.text(`Página ${page} de ${total}`, DOC_WIDTH - MARGIN, DOC_HEIGHT - 10, { align: 'right' });
+                    doc.text(`Your Trainer Partner - Gerado em: ${new Date().toLocaleDateString('pt-BR')}`, MARGIN, DOC_HEIGHT - 10);
+                };
                 
-                // ... (código de montagem do cabeçalho do PDF existente) ...
+                addHeader();
+
+                const observacoesGerais = document.getElementById('observacoes_gerais').value;
+                if(observacoesGerais) {
+                    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(TEXT_COLOR);
+                    doc.text("Observações Gerais:", MARGIN, yPosition); yPosition += 6;
+                    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(LIGHT_TEXT_COLOR);
+                    const splitText = doc.splitTextToSize(observacoesGerais, DOC_WIDTH - (MARGIN * 2));
+                    doc.text(splitText, MARGIN, yPosition);
+                    yPosition += (splitText.length * 4) + 8;
+                }
                 
                 appState.treinoSemanal.forEach(dia => {
-                    
                     const addSimpleSection = (title, content) => {
                         if(content) {
                             if (yPosition > DOC_HEIGHT - 40) { doc.addPage(); yPosition = 30; }
@@ -2354,12 +2477,17 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                     yPosition += 7;
                 });
                 
-                // ... (restante do código de geração de PDF) ...
+                const totalPages = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= totalPages; i++) {
+                    doc.setPage(i);
+                    addFooter(i, totalPages);
+                }
+
                 doc.save(`plano_${nome.replace(/\s/g, '_')}.pdf`);
                 toggleSpinner(false);
             }
 
-            // --- NOVO: LÓGICA DE TEMPLATES ---
+            // --- LÓGICA DE TEMPLATES ---
             btnLoadTemplate.addEventListener('click', async () => {
                 if (!appState.currentUser) return;
                 toggleSpinner(true, "A carregar modelos...");
@@ -2368,7 +2496,7 @@ Crie o plano de treino para o(a) seguinte aluno(a):
 
                 try {
                     const templatesRef = collection(db, "usuarios", appState.currentUser.uid, "workoutTemplates");
-                    const querySnapshot = await getDocs(templatesRef);
+                    const querySnapshot = await getDocs(query(templatesRef, orderBy("nome")));
                     if (querySnapshot.empty) {
                         templateListContainer.innerHTML = '<p class="text-text-muted">Nenhum modelo guardado ainda.</p>';
                         return;
@@ -2449,9 +2577,261 @@ Crie o plano de treino para o(a) seguinte aluno(a):
             });
 
 
+            // --- LÓGICA DA BIBLIOTECA DE EXERCÍCIOS ---
+            btnIrParaBiblioteca.addEventListener('click', () => {
+                mostrarTela('telaBiblioteca');
+                renderizarBiblioteca();
+            });
+            btnVoltarParaBoasVindas_Bib.addEventListener('click', () => mostrarTela('telaBoasVindas'));
+
+            btnPopularBiblioteca.addEventListener('click', async () => {
+                 const confirmed = await showConfirmationModal("Popular Biblioteca", "Esta ação adicionará uma lista padrão de exercícios à sua biblioteca. Exercícios existentes não serão alterados. Deseja continuar?");
+                 if (!confirmed) return;
+
+                 toggleSpinner(true, "A popular a sua biblioteca...");
+                 try {
+                     const listaPadrao = getListaDeExerciciosPadrao();
+                     const bibliotecaAtual = await getBibliotecaExercicios(true); // Força a atualização
+                     const nomesExistentes = new Set(bibliotecaAtual.map(ex => ex.nome));
+
+                     const novosExercicios = listaPadrao.filter(ex => !nomesExistentes.has(ex.nome));
+
+                     if (novosExercicios.length === 0) {
+                        showNotification("Biblioteca Atualizada", "A sua biblioteca já contém todos os exercícios da lista padrão.");
+                        return;
+                     }
+
+                     const batch = writeBatch(db);
+                     const bibliotecaRef = collection(db, "usuarios", appState.currentUser.uid, "bibliotecaExercicios");
+                     
+                     novosExercicios.forEach(exercicio => {
+                         const newDocRef = doc(bibliotecaRef);
+                         batch.set(newDocRef, {
+                             ...exercicio,
+                             videoUrl: '',
+                             criadoEm: serverTimestamp()
+                         });
+                     });
+
+                     await batch.commit();
+                     await getBibliotecaExercicios(true); // Força a atualização do cache
+                     renderizarBiblioteca();
+                     showNotification("Sucesso", `${novosExercicios.length} novos exercícios adicionados à sua biblioteca!`);
+
+                 } catch(error) {
+                     console.error("Erro ao popular biblioteca: ", error);
+                     showNotification("Erro", "Não foi possível popular a biblioteca.", "error");
+                 } finally {
+                     toggleSpinner(false);
+                 }
+            });
+
+            async function getBibliotecaExercicios(forceRefresh = false) {
+                if (!forceRefresh && appState.exerciciosBibliotecaCache.length > 0) {
+                    return appState.exerciciosBibliotecaCache;
+                }
+                if (!appState.currentUser) return [];
+
+                try {
+                    const bibliotecaRef = collection(db, "usuarios", appState.currentUser.uid, "bibliotecaExercicios");
+                    const querySnapshot = await getDocs(query(bibliotecaRef, orderBy("nome")));
+                    appState.exerciciosBibliotecaCache = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    return appState.exerciciosBibliotecaCache;
+                } catch (error) {
+                    console.error("Erro ao carregar biblioteca de exercícios:", error);
+                    return [];
+                }
+            }
+            
+            async function renderizarBiblioteca() {
+                const biblioteca = await getBibliotecaExercicios();
+                const searchTerm = exercicioSearchInput.value.toLowerCase();
+                const selectedGroup = exercicioGroupFilter.value;
+
+                // Popular filtro de grupos musculares
+                const groups = [...new Set(biblioteca.map(ex => ex.grupoMuscular))].sort();
+                exercicioGroupFilter.innerHTML = '<option value="">Filtrar por grupo muscular</option>';
+                groups.forEach(group => {
+                    const option = document.createElement('option');
+                    option.value = group;
+                    option.textContent = group;
+                    exercicioGroupFilter.appendChild(option);
+                });
+                exercicioGroupFilter.value = selectedGroup;
+
+                const filteredExercicios = biblioteca.filter(ex => {
+                    const nameMatch = ex.nome.toLowerCase().includes(searchTerm);
+                    const groupMatch = !selectedGroup || ex.grupoMuscular === selectedGroup;
+                    return nameMatch && groupMatch;
+                });
+                
+                listaExerciciosBiblioteca.innerHTML = '';
+                if(filteredExercicios.length === 0) {
+                    listaExerciciosBiblioteca.innerHTML = `<p class="text-text-muted text-center py-8">Nenhum exercício encontrado. Tente popular com a lista padrão.</p>`;
+                    return;
+                }
+                
+                filteredExercicios.forEach(ex => {
+                    const videoIcon = ex.videoUrl ? 
+                        `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>` : 
+                        `<svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+
+                    const exercicioDiv = document.createElement('div');
+                    exercicioDiv.className = 'bg-background-dark border border-border-light p-3 rounded-lg flex justify-between items-center gap-3';
+                    exercicioDiv.innerHTML = `
+                        <div class="flex items-center gap-3">
+                           ${videoIcon}
+                           <div>
+                               <h4 class="font-semibold text-text-light">${ex.nome}</h4>
+                               <p class="text-sm text-text-muted">${ex.grupoMuscular}</p>
+                           </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button data-exercise-name="${ex.nome}" data-exercise-id="${ex.id}" data-exercise-group="${ex.grupoMuscular}" class="btn-sugerir-video py-2 px-3 text-sm bg-blue-800 text-white rounded-lg font-semibold">Sugerir</button>
+                            <button data-exercise-id="${ex.id}" data-exercise-name="${ex.nome}" data-exercise-group="${ex.grupoMuscular}" data-video-url="${ex.videoUrl || ''}" class="btn-edit-video py-2 px-3 text-sm bg-btn-secondary text-white rounded-lg font-semibold">
+                               ${ex.videoUrl ? 'Editar' : 'Adicionar'}
+                            </button>
+                        </div>
+                    `;
+                    listaExerciciosBiblioteca.appendChild(exercicioDiv);
+                });
+            }
+
+            exercicioSearchInput.addEventListener('input', renderizarBiblioteca);
+            exercicioGroupFilter.addEventListener('change', renderizarBiblioteca);
+
+            listaExerciciosBiblioteca.addEventListener('click', (e) => {
+                const editButton = e.target.closest('.btn-edit-video');
+                const suggestButton = e.target.closest('.btn-sugerir-video');
+
+                if (editButton) {
+                    exerciseIdHidden.value = editButton.dataset.exerciseId;
+                    exerciseNameHidden.value = editButton.dataset.exerciseName;
+                    exerciseGroupHidden.value = editButton.dataset.exerciseGroup;
+                    videoUrlInput.value = editButton.dataset.videoUrl;
+                    videoLinkModalExercise.textContent = editButton.dataset.exerciseName;
+                    videoLinkModalTitle.textContent = 'Adicionar/Editar Vídeo';
+                    videoLinkModal.classList.remove('hide');
+                }
+                if (suggestButton) {
+                    handleSuggestVideos(suggestButton.dataset.exerciseName, suggestButton.dataset);
+                }
+            });
+
+            closeVideoLinkModal.addEventListener('click', () => videoLinkModal.classList.add('hide'));
+
+            formVideoLink.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const videoUrl = videoUrlInput.value.trim();
+                const exerciseId = exerciseIdHidden.value;
+                const exerciseName = exerciseNameHidden.value;
+                const exerciseGroup = exerciseGroupHidden.value;
+
+                if (!videoUrl) return showNotification("Erro", "O link do vídeo não pode estar vazio.", "error");
+
+                toggleSpinner(true, "A guardar link...");
+                try {
+                    const docRef = doc(db, "usuarios", appState.currentUser.uid, "bibliotecaExercicios", exerciseId);
+                    await updateDoc(docRef, { videoUrl: videoUrl });
+                    
+                    await getBibliotecaExercicios(true); // Força refresh
+                    renderizarBiblioteca();
+                    videoLinkModal.classList.add('hide');
+                    showNotification("Sucesso", "Link do vídeo guardado!");
+                } catch (error) {
+                    console.error("Erro ao guardar o link do vídeo:", error);
+                    showNotification("Erro", "Não foi possível guardar o link.", "error");
+                } finally {
+                    toggleSpinner(false);
+                }
+            });
+
+            // --- Lógica de Sugestão de Vídeos com API do YouTube ---
+            async function handleSuggestVideos(exerciseName, dataset) {
+                if (!appState.youtubeApiKey) {
+                    showNotification("Atenção", "Por favor, configure a sua chave de API do YouTube nas configurações (⚙️).", "error");
+                    settingsModal.classList.remove('hide');
+                    return;
+                }
+                toggleSpinner(true, `A procurar vídeos para "${exerciseName}"...`);
+                try {
+                    const videos = await fetchYouTubeSuggestions(exerciseName);
+                    populateVideoSuggestionsModal(videos, dataset);
+                } catch (error) {
+                    showNotification("Erro", `Não foi possível obter sugestões: ${error.message}`, "error");
+                } finally {
+                    toggleSpinner(false);
+                }
+            }
+
+            async function fetchYouTubeSuggestions(exerciseName) {
+                const query = `${exerciseName} exercício tutorial execução`;
+                const apiKey = appState.youtubeApiKey;
+                const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=5&key=${apiKey}`;
+
+                const response = await fetch(url);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error.message || 'Erro na API do YouTube');
+                }
+                const data = await response.json();
+                return data.items;
+            }
+
+            function populateVideoSuggestionsModal(videos, originalDataset) {
+                videoSuggestionsTitle.textContent = `Sugestões para "${originalDataset.exerciseName}"`;
+                videoSuggestionsContainer.innerHTML = '';
+                if (!videos || videos.length === 0) {
+                    videoSuggestionsContainer.innerHTML = '<p class="text-text-muted">Nenhum vídeo encontrado.</p>';
+                } else {
+                    videos.forEach(video => {
+                        const videoId = video.id.videoId;
+                        const videoTitle = video.snippet.title;
+                        const thumbnailUrl = video.snippet.thumbnails.default.url;
+                        const channelTitle = video.snippet.channelTitle;
+
+                        const videoDiv = document.createElement('div');
+                        videoDiv.className = 'bg-background-dark border border-border-light p-3 rounded-lg flex flex-col sm:flex-row items-center gap-4';
+                        videoDiv.innerHTML = `
+                            <img src="${thumbnailUrl}" alt="Thumbnail" class="w-32 h-18 object-cover rounded">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-text-light">${videoTitle}</p>
+                                <p class="text-sm text-text-muted">${channelTitle}</p>
+                            </div>
+                            <button data-video-url="https://www.youtube.com/watch?v=${videoId}" class="btn-select-video py-2 px-4 bg-primary-blue text-white rounded-lg font-semibold w-full sm:w-auto">Selecionar</button>
+                        `;
+                        const selectButton = videoDiv.querySelector('.btn-select-video');
+                        selectButton.dataset.exerciseId = originalDataset.exerciseId;
+                        selectButton.dataset.exerciseName = originalDataset.exerciseName;
+                        selectButton.dataset.exerciseGroup = originalDataset.exerciseGroup;
+
+                        videoSuggestionsContainer.appendChild(videoDiv);
+                    });
+                }
+                videoSuggestionsModal.classList.remove('hide');
+            }
+
+            closeVideoSuggestionsModal.addEventListener('click', () => videoSuggestionsModal.classList.add('hide'));
+
+            videoSuggestionsContainer.addEventListener('click', (e) => {
+                const selectButton = e.target.closest('.btn-select-video');
+                if (selectButton) {
+                    videoSuggestionsModal.classList.add('hide');
+                    
+                    exerciseIdHidden.value = selectButton.dataset.exerciseId;
+                    exerciseNameHidden.value = selectButton.dataset.exerciseName;
+                    exerciseGroupHidden.value = selectButton.dataset.exerciseGroup;
+                    videoUrlInput.value = selectButton.dataset.videoUrl;
+                    videoLinkModalExercise.textContent = selectButton.dataset.exerciseName;
+                    videoLinkModalTitle.textContent = 'Confirmar Vídeo Sugerido';
+                    videoLinkModal.classList.remove('hide');
+                }
+            });
+
+
             // --- FUNÇÕES GERAIS ---
             function mostrarTela(idTela) {
-                document.querySelectorAll('#telaAlunos, #telaGerenciarAluno, #telaCarregar, #treinoForm, #treinoPreview, #telaAcompanhamento, #telaBoasVindas').forEach(el => el.classList.add('hide'));
+                document.querySelectorAll('#telaAlunos, #telaGerenciarAluno, #telaCarregar, #treinoForm, #treinoPreview, #telaAcompanhamento, #telaBoasVindas, #telaBiblioteca').forEach(el => el.classList.add('hide'));
                 const tela = document.getElementById(idTela);
                 if (tela) tela.classList.remove('hide');
             }
@@ -2516,6 +2896,129 @@ Crie o plano de treino para o(a) seguinte aluno(a):
                 });
             }
 
+            function getListaDeExerciciosPadrao() {
+                 // Esta função contém a lista de exercícios padrão para popular a biblioteca
+                return [
+                    // Peito
+                    { nome: "Supino Reto com Barra", grupoMuscular: "Peito" }, { nome: "Supino Inclinado com Barra", grupoMuscular: "Peito" },
+                    { nome: "Supino Declinado com Barra", grupoMuscular: "Peito" }, { nome: "Supino Reto com Halteres", grupoMuscular: "Peito" },
+                    { nome: "Supino Inclinado com Halteres", grupoMuscular: "Peito" }, { nome: "Supino Declinado com Halteres", grupoMuscular: "Peito" },
+                    { nome: "Crucifixo Reto com Halteres", grupoMuscular: "Peito" }, { nome: "Crucifixo Inclinado com Halteres", grupoMuscular: "Peito" },
+                    { nome: "Crucifixo Declinado com Halteres", grupoMuscular: "Peito" }, { nome: "Voador / Peck Deck", grupoMuscular: "Peito" },
+                    { nome: "Crossover na Polia Alta", grupoMuscular: "Peito" }, { nome: "Crossover na Polia Média", grupoMuscular: "Peito" },
+                    { nome: "Crossover na Polia Baixa", grupoMuscular: "Peito" }, { nome: "Supino na Máquina (Vertical)", grupoMuscular: "Peito" },
+                    { nome: "Supino na Máquina Inclinado (Articulada)", grupoMuscular: "Peito" }, { nome: "Flexão de Braço (Clássica)", grupoMuscular: "Peito" },
+                    { nome: "Flexão Declinada (Pés elevados)", grupoMuscular: "Peito" }, { nome: "Flexão Inclinada (Mãos elevadas)", grupoMuscular: "Peito" },
+                    { nome: "Flexão com Pegada Fechada", grupoMuscular: "Peito" }, { nome: "Flexão Diamante", grupoMuscular: "Peito" },
+                    { nome: "Mergulho nas Barras Paralelas (Foco no Peito)", grupoMuscular: "Peito" }, { nome: "Pullover com Halter", grupoMuscular: "Peito" },
+                    { nome: "Pullover na Polia Alta com Corda", grupoMuscular: "Peito" }, { nome: "Supino com Pegada Fechada (Close-grip Bench Press)", grupoMuscular: "Peito" },
+                    { nome: "Flexão Arqueiro", grupoMuscular: "Peito" },
+                    // Costas
+                    { nome: "Barra Fixa (Pull-up) - Pegada Pronada", grupoMuscular: "Costas" }, { nome: "Barra Fixa (Chin-up) - Pegada Supinada", grupoMuscular: "Costas" },
+                    { nome: "Barra Fixa com Pegada Neutra", grupoMuscular: "Costas" }, { nome: "Puxada Frontal na Polia - Pegada Aberta", grupoMuscular: "Costas" },
+                    { nome: "Puxada Frontal na Polia - Pegada Fechada", grupoMuscular: "Costas" }, { nome: "Puxada Frontal na Polia - Pegada Supinada", grupoMuscular: "Costas" },
+                    { nome: "Puxada com Triângulo", grupoMuscular: "Costas" }, { nome: "Puxada por Trás (Pulley Costas)", grupoMuscular: "Costas" },
+                    { nome: "Remada Curvada com Barra (Pegada Pronada)", grupoMuscular: "Costas" }, { nome: "Remada Curvada com Barra (Pegada Supinada / Remada Yates)", grupoMuscular: "Costas" },
+                    { nome: "Remada Cavalinho com Triângulo", grupoMuscular: "Costas" }, { nome: "Remada Serrote com Halter (Unilateral)", grupoMuscular: "Costas" },
+                    { nome: "Remada Baixa na Polia (Sentado)", grupoMuscular: "Costas" }, { nome: "Remada na Máquina (Articulada)", grupoMuscular: "Costas" },
+                    { nome: "Remada Alta com Barra", grupoMuscular: "Costas" }, { nome: "Remada Alta com Halteres", grupoMuscular: "Costas" },
+                    { nome: "Pulldown com Corda na Polia Alta", grupoMuscular: "Costas" }, { nome: "Pulldown com Barra Reta na Polia Alta", grupoMuscular: "Costas" },
+                    { nome: "Levantamento Terra (Convencional)", grupoMuscular: "Costas" }, { nome: "Levantamento Terra Romeno (Foco em Posteriores/Lombar)", grupoMuscular: "Costas" },
+                    { nome: "Levantamento Terra Sumô", grupoMuscular: "Costas" }, { nome: "Encolhimento de Ombros com Barra", grupoMuscular: "Costas" },
+                    { nome: "Encolhimento de Ombros com Halteres", grupoMuscular: "Costas" }, { nome: "Hiperextensão Lombar (Banco Romano)", grupoMuscular: "Costas" },
+                    { nome: "Puxada Unilateral na Polia", grupoMuscular: "Costas" }, { nome: "Remada Invertida na Barra (no Smith)", grupoMuscular: "Costas" },
+                    { nome: "Good Morning com Barra", grupoMuscular: "Costas" }, { nome: "Kroc Rows (Remada com Halter pesado)", grupoMuscular: "Costas" },
+                    { nome: "Face Pull na Polia", grupoMuscular: "Costas" }, { nome: "Superman no Solo", grupoMuscular: "Costas" },
+                    // Ombros
+                    { nome: "Desenvolvimento Militar com Barra (Em Pé)", grupoMuscular: "Ombros" }, { nome: "Desenvolvimento com Barra (Sentado)", grupoMuscular: "Ombros" },
+                    { nome: "Desenvolvimento com Halteres (Sentado)", grupoMuscular: "Ombros" }, { nome: "Desenvolvimento Arnold (Arnold Press)", grupoMuscular: "Ombros" },
+                    { nome: "Desenvolvimento na Máquina (Smith ou Articulada)", grupoMuscular: "Ombros" }, { nome: "Elevação Lateral com Halteres", grupoMuscular: "Ombros" },
+                    { nome: "Elevação Lateral na Polia (Unilateral)", grupoMuscular: "Ombros" }, { nome: "Elevação Lateral Curvado com Halteres (Crucifixo Inverso)", grupoMuscular: "Ombros" },
+                    { nome: "Elevação Frontal com Barra", grupoMuscular: "Ombros" }, { nome: "Elevação Frontal com Halteres (Alternada ou Simultânea)", grupoMuscular: "Ombros" },
+                    { nome: "Elevação Frontal com Anilhas", grupoMuscular: "Ombros" }, { nome: "Elevação Frontal na Polia com Corda", grupoMuscular: "Ombros" },
+                    { nome: "Crucifixo Inverso na Máquina (Voador Inverso)", grupoMuscular: "Ombros" }, { nome: "Crucifixo Inverso na Polia com Corda", grupoMuscular: "Ombros" },
+                    { nome: "Remada Alta com Barra (Upright Row)", grupoMuscular: "Ombros" }, { nome: "Remada Alta na Polia com Barra", grupoMuscular: "Ombros" },
+                    { nome: "Face Pull na Polia com Corda", grupoMuscular: "Ombros" }, { nome: "Encolhimento de Ombros na Máquina", grupoMuscular: "Ombros" },
+                    { nome: "Manguito Rotador na Polia (Rotação Externa)", grupoMuscular: "Ombros" }, { nome: "Manguito Rotador na Polia (Rotação Interna)", grupoMuscular: "Ombros" },
+                    { nome: "Elevação YTWL com Halteres Leves", grupoMuscular: "Ombros" }, { nome: "Pike Push-up", grupoMuscular: "Ombros" },
+                    { nome: "Handstand Push-up (Flexão de Parada de Mão)", grupoMuscular: "Ombros" }, { nome: "Landmine Press (Desenvolvimento com Barra Fixa num Canto)", grupoMuscular: "Ombros" },
+                    { nome: 'Elevação Lateral "Lu" com Halteres', grupoMuscular: "Ombros" },
+                    // Bíceps
+                    { nome: "Rosca Direta com Barra Reta", grupoMuscular: "Bíceps" }, { nome: "Rosca Direta com Barra W", grupoMuscular: "Bíceps" },
+                    { nome: "Rosca Direta com Halteres (Simultânea)", grupoMuscular: "Bíceps" }, { nome: "Rosca Alternada com Halteres", grupoMuscular: "Bíceps" },
+                    { nome: "Rosca Martelo (Hammer Curl)", grupoMuscular: "Bíceps" }, { nome: "Rosca Concentrada com Halter", grupoMuscular: "Bíceps" },
+                    { nome: "Rosca Scott com Barra W", grupoMuscular: "Bíceps" }, { nome: "Rosca Scott com Halter (Unilateral)", grupoMuscular: "Bíceps" },
+                    { nome: "Rosca na Polia Baixa com Barra", grupoMuscular: "Bíceps" }, { nome: "Rosca na Polia Baixa com Corda", grupoMuscular: "Bíceps" },
+                    { nome: "Rosca Unilateral na Polia", grupoMuscular: "Bíceps" }, { nome: "Rosca Spider (Spider Curl)", grupoMuscular: "Bíceps" },
+                    { nome: "Rosca Inversa com Barra (Reverse Curl)", grupoMuscular: "Bíceps" }, { nome: "Rosca 21s (com Barra ou Halteres)", grupoMuscular: "Bíceps" },
+                    { nome: "Rosca Zottman", grupoMuscular: "Bíceps" }, { nome: "Rosca no Banco Inclinado com Halteres", grupoMuscular: "Bíceps" },
+                    { nome: "Barra Fixa com Pegada Supinada Fechada (Chin-up)", grupoMuscular: "Bíceps" }, { nome: "Rosca de Arraste (Drag Curl)", grupoMuscular: "Bíceps" },
+                    { nome: "Rosca Martelo Transversal (Cross-body Hammer Curl)", grupoMuscular: "Bíceps" }, { nome: "Rosca no Cabo Alto (High Cable Curl)", grupoMuscular: "Bíceps" },
+                    // Tríceps
+                    { nome: "Tríceps Testa com Barra W (Skull Crusher)", grupoMuscular: "Tríceps" }, { nome: "Tríceps Testa com Halteres (Simultâneo ou Alternado)", grupoMuscular: "Tríceps" },
+                    { nome: "Tríceps Pulley com Barra Reta", grupoMuscular: "Tríceps" }, { nome: "Tríceps Pulley com Corda", grupoMuscular: "Tríceps" },
+                    { nome: "Tríceps Pulley com Pegada Invertida", grupoMuscular: "Tríceps" }, { nome: "Mergulho nas Barras Paralelas (Foco no Tríceps)", grupoMuscular: "Tríceps" },
+                    { nome: "Mergulho no Banco", grupoMuscular: "Tríceps" }, { nome: "Supino com Pegada Fechada (Close-grip Bench Press)", grupoMuscular: "Tríceps" },
+                    { nome: "Flexão Diamante", grupoMuscular: "Tríceps" }, { nome: "Tríceps Francês Unilateral com Halter (Sentado ou em pé)", grupoMuscular: "Tríceps" },
+                    { nome: "Tríceps Coice na Polia", grupoMuscular: "Tríceps" }, { nome: "Tríceps Coice com Halter", grupoMuscular: "Tríceps" },
+                    { nome: "Extensão de Tríceps Acima da Cabeça com Halter (Dois braços)", grupoMuscular: "Tríceps" }, { nome: "Extensão de Tríceps Acima da Cabeça com Corda na Polia", grupoMuscular: "Tríceps" },
+                    { nome: "Extensão de Tríceps na Máquina", grupoMuscular: "Tríceps" }, { nome: "Extensão de Tríceps com Peso Corporal (em barra ou TRX)", grupoMuscular: "Tríceps" },
+                    { nome: "JM Press", grupoMuscular: "Tríceps" }, { nome: "Tate Press com Halteres", grupoMuscular: "Tríceps" },
+                    { nome: "Tríceps Unilateral na Polia", grupoMuscular: "Tríceps" }, { nome: "Extensão de Tríceps Deitado na Polia Baixa", grupoMuscular: "Tríceps" },
+                    // Quadríceps
+                    { nome: "Agachamento Livre com Barra (Costas)", grupoMuscular: "Quadríceps" }, { nome: "Agachamento Frontal com Barra (Front Squat)", grupoMuscular: "Quadríceps" },
+                    { nome: "Agachamento no Hack Machine", grupoMuscular: "Quadríceps" }, { nome: "Agachamento no Smith Machine", grupoMuscular: "Quadríceps" },
+                    { nome: "Leg Press 45°", grupoMuscular: "Quadríceps" }, { nome: "Leg Press Horizontal", grupoMuscular: "Quadríceps" },
+                    { nome: "Cadeira Extensora", grupoMuscular: "Quadríceps" }, { nome: "Afundo (Lunge) com Barra", grupoMuscular: "Quadríceps" },
+                    { nome: "Afundo (Lunge) com Halteres", grupoMuscular: "Quadríceps" }, { nome: "Afundo no Smith", grupoMuscular: "Quadríceps" },
+                    { nome: "Passada (Walking Lunge) com Halteres", grupoMuscular: "Quadríceps" }, { nome: "Agachamento Búlgaro com Halteres", grupoMuscular: "Quadríceps" },
+                    { nome: "Agachamento Sissy (Sissy Squat)", grupoMuscular: "Quadríceps" }, { nome: "Agachamento Goblet (Goblet Squat) com Halter/Kettlebell", grupoMuscular: "Quadríceps" },
+                    { nome: "Agachamento com Salto (Jump Squat)", grupoMuscular: "Quadríceps" }, { nome: "Afundo Reverso (Reverse Lunge)", grupoMuscular: "Quadríceps" },
+                    { nome: "Pistol Squat (Agachamento Unilateral)", grupoMuscular: "Quadríceps" }, { nome: "Leg Press Unilateral", grupoMuscular: "Quadríceps" },
+                    { nome: "Step-up no Caixote com Halteres", grupoMuscular: "Quadríceps" }, { nome: "Agachamento Zercher", grupoMuscular: "Quadríceps" },
+                    // Posteriores
+                    { nome: "Mesa Flexora", grupoMuscular: "Posterioress" }, { nome: "Cadeira Flexora", grupoMuscular: "Posterioress" },
+                    { nome: "Flexora em Pé (Unilateral)", grupoMuscular: "Posterioress" }, { nome: "Stiff com Barra", grupoMuscular: "Posterioress" },
+                    { nome: "Stiff com Halteres", grupoMuscular: "Posterioress" }, { nome: "Levantamento Terra Romeno (RDL) com Barra", grupoMuscular: "Posterioress" },
+                    { nome: "Levantamento Terra Romeno (RDL) com Halteres", grupoMuscular: "Posterioress" }, { nome: "Good Morning com Barra", grupoMuscular: "Posterioress" },
+                    { nome: "Flexão Nórdica (Nordic Hamstring Curl)", grupoMuscular: "Posterioress" }, { nome: "Kettlebell Swing", grupoMuscular: "Posterioress" },
+                    { nome: "Stiff Unilateral com Halter", grupoMuscular: "Posterioress" }, { nome: "Levantamento Terra (Convencional)", grupoMuscular: "Posterioress" },
+                    { nome: "Cable Pull-through (Puxada de cabo entre as pernas)", grupoMuscular: "Posterioress" }, { nome: "Glute-Ham Raise (GHR)", grupoMuscular: "Posterioress" },
+                    { nome: "Stiff na Polia Baixa com corda", grupoMuscular: "Posterioress" },
+                    // Glúteos
+                    { nome: "Elevação Pélvica com Barra (Hip Thrust)", grupoMuscular: "Glúteos" }, { nome: "Elevação Pélvica na Máquina Específica", grupoMuscular: "Glúteos" },
+                    { nome: "Ponte de Glúteos no Solo (Glute Bridge)", grupoMuscular: "Glúteos" }, { nome: "Agachamento Sumô com Halter ou Kettlebell", grupoMuscular: "Glúteos" },
+                    { nome: "Agachamento Búlgaro (foco no glúteo)", grupoMuscular: "Glúteos" }, { nome: "Afundo com passo largo (foco no glúteo)", grupoMuscular: "Glúteos" },
+                    { nome: "Coice na Polia (Glute Kickback)", grupoMuscular: "Glúteos" }, { nome: "Coice na Máquina (Glute Machine)", grupoMuscular: "Glúteos" },
+                    { nome: "Cadeira Abdutora (com tronco inclinado à frente)", grupoMuscular: "Glúteos" }, { nome: "Abdução de Quadril na Polia Baixa (em pé)", grupoMuscular: "Glúteos" },
+                    { nome: "Abdução de Quadril Deitado com Caneleira", grupoMuscular: "Glúteos" }, { nome: "Levantamento Terra Sumô", grupoMuscular: "Glúteos" },
+                    { nome: "Afundo Reverso Cruzado (Curtsy Lunge)", grupoMuscular: "Glúteos" }, { nome: "Step-up no Caixote (foco no glúteo)", grupoMuscular: "Glúteos" },
+                    { nome: "Frog Pump (Ponte Sapo)", grupoMuscular: "Glúteos" }, { nome: "Hidrante (Fire Hydrant) com caneleira ou faixa", grupoMuscular: "Glúteos" },
+                    { nome: "Clamshell com faixa de resistência", grupoMuscular: "Glúteos" }, { nome: "Hiperextensão Reversa", grupoMuscular: "Glúteos" },
+                    { nome: "Elevação Pélvica Unilateral", grupoMuscular: "Glúteos" }, { nome: "Kas Glute Bridge (variação da Elevação Pélvica)", grupoMuscular: "Glúteos" },
+                    // Panturrilhas
+                    { nome: "Panturrilha em Pé na Máquina (Gastrocnêmio)", grupoMuscular: "Panturrilhas" }, { nome: "Panturrilha Sentado na Máquina (Sóleo)", grupoMuscular: "Panturrilhas" },
+                    { nome: "Panturrilha no Leg Press", grupoMuscular: "Panturrilhas" }, { nome: "Panturrilha no Smith Machine (em um step)", grupoMuscular: "Panturrilhas" },
+                    { nome: "Panturrilha com Halter (Unilateral em um step)", grupoMuscular: "Panturrilhas" }, { nome: 'Panturrilha "Burrinho" (Donkey Calf Raise)', grupoMuscular: "Panturrilhas" },
+                    { nome: "Panturrilha em Pé com Peso do Corpo", grupoMuscular: "Panturrilhas" }, { nome: "Pular Corda", grupoMuscular: "Panturrilhas" },
+                    { nome: "Salto na Caixa (Box Jumps)", grupoMuscular: "Panturrilhas" }, { nome: "Panturrilha com Rotação dos Pés (para dentro e para fora)", grupoMuscular: "Panturrilhas" },
+                    // Abdômen & Core
+                    { nome: "Prancha Abdominal (Plank)", grupoMuscular: "Abdômen & Core" }, { nome: "Prancha Lateral (Side Plank)", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Abdominal Supra no Solo (Crunch)", grupoMuscular: "Abdômen & Core" }, { nome: "Abdominal na Polia Alta (Crunch na polia)", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Elevação de Pernas na Barra Fixa", grupoMuscular: "Abdômen & Core" }, { nome: "Elevação de Joelhos na Barra Fixa", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Elevação de Pernas na Cadeira Romana (Paralelas)", grupoMuscular: "Abdômen & Core" }, { nome: "Elevação de Pernas Deitado", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Abdominal Infra (Reverse Crunch)", grupoMuscular: "Abdômen & Core" }, { nome: "Abdominal Remador (V-up)", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Canivete (Jackknife Sit-up)", grupoMuscular: "Abdômen & Core" }, { nome: "Abdominal Bicicleta no Ar", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Roda Abdominal (Ab Wheel)", grupoMuscular: "Abdômen & Core" }, { nome: "Toque no Calcanhar Alternado (Heel Touch)", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Giro Russo (Russian Twist) com peso", grupoMuscular: "Abdômen & Core" }, { nome: "Lenhador na Polia (Woodchopper)", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Abdominal Oblíquo na Polia (Side Bend)", grupoMuscular: "Abdômen & Core" }, { nome: "Prancha com Rotação de Quadril", grupoMuscular: "Abdômen & Core" },
+                    { nome: "L-Sit (Isométrico)", grupoMuscular: "Abdômen & Core" }, { nome: "Dragon Flag", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Abdominal na Bola Suíça", grupoMuscular: "Abdômen & Core" }, { nome: "Perdigueiro (Bird-dog)", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Inseto Morto (Dead Bug)", grupoMuscular: "Abdômen & Core" }, { nome: "Pallof Press (Anti-rotação)", grupoMuscular: "Abdômen & Core" },
+                    { nome: "Escalador (Mountain Climber)", grupoMuscular: "Abdômen & Core" }
+                ];
+            }
+
             // --- INICIALIZAÇÃO ---
             atualizarDivisoes();
             tecnicasContainer.classList.add('hide');
@@ -2523,4 +3026,7 @@ Crie o plano de treino para o(a) seguinte aluno(a):
     </script>
 </body>
 </html>
+
+
+
 
