@@ -410,6 +410,11 @@
             <h3 class="text-2xl font-semibold text-text-light mb-4">Configurações de API</h3>
             <form id="settingsForm" class="space-y-4">
                 <div>
+                    <label for="aiModelInput" class="block text-text-muted">Modelo da IA (Google API):</label>
+                    <input type="text" id="aiModelInput" class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light" value="gemini-2.5-flash" required>
+                    <p class="text-xs text-text-muted mt-2">Versão do modelo (ex: gemini-2.5-flash, gemini-1.5-pro).</p>
+                </div>
+                <div>
                     <label for="apiKeyInput" class="block text-text-muted">A sua Chave de API do Google AI:</label>
                     <input type="password" id="apiKeyInput" class="w-full p-3 rounded-lg border border-border-light bg-background-dark text-text-light" required>
                     <p class="text-xs text-text-muted mt-2">A sua chave é guardada apenas no seu navegador. Obtenha a sua em <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-blue hover:underline">Google AI Studio</a>.</p>
@@ -772,6 +777,7 @@
                 exerciciosBibliotecaCache: [],
                 apiKey: null,
                 youtubeApiKey: null,
+                aiModel: 'gemini-2.5-flash'
             };
 
             const telaLogin = document.getElementById('telaLogin');
@@ -853,6 +859,7 @@
             const settingsModal = document.getElementById('settingsModal');
             const closeSettingsModal = document.getElementById('closeSettingsModal');
             const settingsForm = document.getElementById('settingsForm');
+            const aiModelInput = document.getElementById('aiModelInput');
             const apiKeyInput = document.getElementById('apiKeyInput');
             const youtubeApiKeyInput = document.getElementById('youtubeApiKeyInput');
             const btnClearApiKeys = document.getElementById('btnClearApiKeys');
@@ -997,6 +1004,14 @@
                     appState.youtubeApiKey = storedYoutubeKey;
                     youtubeApiKeyInput.value = storedYoutubeKey;
                 }
+                const storedAiModel = localStorage.getItem('geminiAiModel');
+                if (storedAiModel) {
+                    appState.aiModel = storedAiModel;
+                    aiModelInput.value = storedAiModel;
+                } else {
+                    appState.aiModel = 'gemini-2.5-flash';
+                    aiModelInput.value = 'gemini-2.5-flash';
+                }
             }
 
             btnShowSettings.addEventListener('click', () => {
@@ -1009,6 +1024,7 @@
                 e.preventDefault();
                 const newGoogleKey = apiKeyInput.value.trim();
                 const newYoutubeKey = youtubeApiKeyInput.value.trim();
+                const newAiModel = aiModelInput.value.trim() || 'gemini-2.5-flash';
 
                 if (newGoogleKey) {
                     appState.apiKey = newGoogleKey;
@@ -1018,18 +1034,24 @@
                     appState.youtubeApiKey = newYoutubeKey;
                     localStorage.setItem('youtubeApiKey', newYoutubeKey);
                 }
-                showNotification("Sucesso", "Chaves de API guardadas com sucesso!");
+                appState.aiModel = newAiModel;
+                localStorage.setItem('geminiAiModel', newAiModel);
+
+                showNotification("Sucesso", "Configurações guardadas com sucesso!");
                 settingsModal.classList.add('hide');
             });
 
             btnClearApiKeys.addEventListener('click', () => {
                 appState.apiKey = null;
                 appState.youtubeApiKey = null;
+                appState.aiModel = 'gemini-2.5-flash';
                 localStorage.removeItem('googleAiApiKey');
                 localStorage.removeItem('youtubeApiKey');
+                localStorage.removeItem('geminiAiModel');
                 apiKeyInput.value = '';
                 youtubeApiKeyInput.value = '';
-                showNotification("Sucesso", "Chaves de API removidas.");
+                aiModelInput.value = 'gemini-2.5-flash';
+                showNotification("Sucesso", "Configurações removidas.");
                 settingsModal.classList.add('hide');
             });
 
@@ -1896,8 +1918,8 @@
                 
                 try {
                     const apiKey = appState.apiKey;
-                    // ATUALIZADO: Usando a versão estável gemini-2.5-flash
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+                    const modelName = appState.aiModel || 'gemini-2.5-flash';
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
                     const payload = { 
                         contents: [{ role: "user", parts: [{ text: prompt }] }], 
                         generationConfig: { responseMimeType: "application/json", responseSchema: schema }
@@ -1917,6 +1939,8 @@
                            errorDetails = errorJson.error?.message || errorText;
                            if(errorDetails.includes("API key not valid")) {
                                 errorDetails = "A sua chave de API é inválida. Por favor, verifique nas configurações (⚙️)."
+                           } else if (errorDetails.includes("is not found for API version") || errorDetails.includes("not found")) {
+                                errorDetails = `O modelo '${modelName}' não foi encontrado. Verifique se o nome está correto nas configurações (⚙️).`;
                            }
                         } catch(e) {}
                         throw new Error(errorDetails);
